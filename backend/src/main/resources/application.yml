@@ -46,7 +46,7 @@ mybatis:
     # 延迟加载开关
     lazy-loading-enabled: false
     # 打印SQL参数（配合日志更易调试）
-    log-parameters: true
+    # log-parameters: true
 
 # MyBatis-Plus 配置（如果用MyBatis-Plus，需添加以下配置，普通MyBatis可忽略）
 # mybatis-plus:

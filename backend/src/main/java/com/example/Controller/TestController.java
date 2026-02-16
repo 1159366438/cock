@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class TestController
 {
     @GetMapping("/send")
-    public  String TEST (@RequestParam(value = "content", required = true) String content){
+    public  String TEST (@RequestParam(value = "content") String content){
         System.out.println("请求成功");
         System.out.println(content);
         return "TEST";
