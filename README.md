@@ -4,14 +4,14 @@ This template should help get you started developing with Vue 3 and TypeScript i
 
 Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
 
-员工打卡项目
-前后端分离
-前段暂定技术
+# 员工打卡项目
+# 前后端分离
+# 前段暂定技术
     axios        : 1.13.5,
     element-plus : 2.13.2,
     vue          : 3.5.25,
     vue-router   : 4.6.4
-后端暂定技术
+# 后端暂定技术
     Springboot4  : 4.0.2
     mybatis      : 3.0.5
     mysql        : 无需手动指定
