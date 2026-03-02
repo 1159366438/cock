@@ -23,48 +23,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, getCurrentInstance, computed } from 'vue'
 import { CircleCheck, CircleClose } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import { punchApi } from  '../api/punchApi.ts'
+import { usePunchStore } from '../store/punch'
+import { formatDate } from '../utils'
 
 // 响应式数据
 const todayDate = ref('')
-const isPunched = ref(false) // 是否已打卡
-const punchedTime = ref('')
+const punchStore = usePunchStore()
+const isPunched = computed(() => punchStore.isPunched)
+const punchedTime = computed(() => punchStore.punchedTime)
 
 // 格式化今日日期
 const formatTodayDate = () => {
-  const now = new Date()
-  todayDate.value = now.toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long'
-  })
+  todayDate.value = formatDate(new Date(), 'date')
 }
 
+const { proxy } = getCurrentInstance() as any
 // 打卡操作
 const handlePunchIn = async () => {
-    // 调用封装的记录接口
-    try {
-      const res = await punchApi.getPunchRecords()
-      console.log(res)
-      isPunched.value = true
-      const now = new Date()
-      punchedTime.value = now.toLocaleTimeString('zh-CN', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      })
-      ElMessage.success("打卡成功")
-    }
-    catch (error) {
-    // 统一捕获错误
-    ElMessage.error('打卡失败！')
-    console.error('打卡接口异常：', (error as Error).message )
+  const success = await punchStore.punchIn()
+  if (success) {
+    proxy.$message.success("打卡成功")
+  } else if (punchStore.error) {
+    proxy.$message.error(punchStore.error)
+  } else {
+    proxy.$message.error('打卡失败！')
   }
-
 }
 
 // 初始化

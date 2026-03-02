@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 
 import 'element-plus/dist/index.css'
@@ -9,6 +10,7 @@ import ElementPlus from 'element-plus' // 导入 Element Plus
 import 'element-plus/dist/index.css' // 导入样式
 
 const app = createApp(App)
+const pinia = createPinia()
 
 // 全局注册 Element Plus 图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -21,4 +23,5 @@ app.config.globalProperties.$axios = axios
 
 app.use(ElementPlus)
 app.use(router)
+app.use(pinia)
 app.mount('#app')

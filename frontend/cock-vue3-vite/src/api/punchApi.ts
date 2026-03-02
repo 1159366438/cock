@@ -17,7 +17,7 @@ export const userApi = {
 
 // 打卡相关接口封装
 export const punchApi = {
-  // 获取打卡记录（模拟接口）
+  // 获取打卡记录
   getPunchRecords: () => {
     return axios.get('/api/punch/record')
   }

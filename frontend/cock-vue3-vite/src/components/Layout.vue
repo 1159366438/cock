@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref } from 'vue'
 import UserInfo from './UserInfo.vue'
 import PunchCard from './PunchCard.vue'
 import RecordCard from './RecordCard.vue'
@@ -93,10 +93,6 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 
 const activeTab = ref('today');
-const activeMenu = ref<MenuKey>('today');
-
-
-const punchRecord = ref<any[]>([])
 
 const handleMenuSelect = (key: string) => {
   console.log('切换到菜单：', key)
@@ -104,10 +100,6 @@ const handleMenuSelect = (key: string) => {
   activeTab.value = setSafeMenuKey(key);
   // 选中菜单项时，同步更新菜单文本
   updateMenuText(setSafeMenuKey(key));
-  
-/*   if (key === 'record') {
-    getPunchRecord()
-  } */
 }
 
 // 注释：如果没有实际的接口，先注释，避免运行报错

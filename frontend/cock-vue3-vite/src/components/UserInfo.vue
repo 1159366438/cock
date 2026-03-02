@@ -17,52 +17,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { userApi } from '../api/punchApi'
-import { type MenuText } from '../constants/menu';
+import { ref, onMounted, onUnmounted, getCurrentInstance, computed } from 'vue'
+import { useUserStore } from '../store/user'
+import { formatDate } from '../utils'
+
 
 // 接收父组件传递的菜单文本
 const props = defineProps({
   currentMenuText: {
-    type: String as () => MenuText,
+    type: String,
     required: true,
   }
 });
 
-// 定义用户信息类型
-interface UserInfo {
-  name: string
-  avatar: string
-}
+
+
+/**
+ * 获取用户信息
+ * 调用userStore.fetchUserInfo()获取用户信息
+ */
+const { proxy } = getCurrentInstance() as any
+const userStore = useUserStore()
 
 // 响应式数据
 const currentTime = ref('')
-const userInfo = ref<UserInfo>({
-  name: '',
-  avatar: ''
-})
+const userInfo = computed(() => userStore.userInfo)
 
-// 更新时间函数
+/**
+ * 更新时间函数
+ * 格式化当前时间为 YYYY-MM-DD HH:mm:ss 格式
+ */
 const updateTime = () => {
-  const now = new Date()
-  // 格式化时间：YYYY-MM-DD HH:mm:ss
-  currentTime.value = now.toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  }).replace(/\//g, '-')
-}
+  currentTime.value = formatDate(new Date(), 'datetime')
+};
 
-// 获取用户信息
 const getUserInfo = async () => {
-  const res = await userApi.getUserInfo()
-  if (res.code === 200) {
-    userInfo.value = res.data
+  await userStore.fetchUserInfo()
+  if (userStore.error) {
+    proxy.$message.error(userStore.error)
   }
-}
+};
+
 
 // 生命周期：挂载时初始化
 onMounted(() => {

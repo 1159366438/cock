@@ -25,8 +25,9 @@ npm config set registry https://registry.npmmirror.com/
 # 安装 router
 # 使用 axios
 # 使用 element-plus
+# 使用 pinia
 
-npm install @element-plus/icons-vue vue-router@4 axios element-plus
+npm install @element-plus/icons-vue vue-router@4 axios element-plus pinia
 
 # 进入项目文件夹（注意替换成你的项目名称）
 # cd my-vue3-vite
@@ -38,13 +39,22 @@ npm install
 npm run dev
 
 # 项目核心结构：
-my-vue3-vite/
-├── node_modules/    # 依赖包（npm install 生成）
-├── src/             # 源码目录（开发主要写这里）
-│   ├── assets/      # 静态资源（图片、样式）
-│   ├── components/  # 组件目录
-│   ├── App.vue      # 根组件
-│   └── main.ts      # 入口文件（Vue 3 特有 createApp 写法）
-├── index.html       # Vite 入口 HTML（区别于 Vue CLI）
-├── package.json     # 项目配置（包含依赖、脚本）
-└── vite.config.ts   # Vite 配置文件（可配置代理、端口等）
+cock-vue3-vite/
+├── public/             # 静态资源
+├── src/                # 源代码
+│   ├── api/            # API接口封装
+│   ├── assets/         # 静态资源
+│   ├── components/     # 组件
+│   ├── constants/      # 常量定义
+│   ├── router/         # 路由配置
+│   ├── views/          # 页面视图
+│   ├── App.vue         # 根组件
+│   ├── main.ts         # 入口文件
+│   └── style.css       # 全局样式
+├── node_modules/       # 开发依赖
+├── .gitignore          # Git忽略配置
+├── README.md           # 项目说明
+├── index.html          # HTML入口
+├── package.json        # 项目配置
+├── tsconfig.*.json     # TypeScript配置
+└── vite.config.ts      # Vite配置
