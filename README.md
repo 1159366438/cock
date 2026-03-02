@@ -10,7 +10,8 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
     Axios        : 1.13.5,
     Element-plus : 2.13.2,
     Vue          : 3.5.25,
-    Vue-router   : 4.6.4
+    Vue-router   : 4.6.4,
+    pinia        : 2.3.1
 # 后端暂定技术
     Springboot4  : 4.0.2
     Mybatis      : 3.0.5
