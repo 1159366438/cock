@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
+import com.github.pagehelper.PageInfo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,19 +44,17 @@ public class PunchController {
 
         System.out.println("获取打卡记录请求成功，页码: " + page + ", 每页数量: " + size);
         
-        // 计算总数
-        int total = attendanceRecordService.countAll();
-        
-        // 获取分页数据
+        // 使用PageHelper获取分页数据
         List<AttendanceRecord> records = attendanceRecordService.queryByPage(page, size);
+        PageInfo<AttendanceRecord> pageInfo = new PageInfo<>(records);
         
         // 构造响应数据
         Map<String, Object> response = new HashMap<>();
-        response.put("records", records);
-        response.put("total", total);
-        response.put("page", page);
-        response.put("size", size);
-        response.put("pages", (int) Math.ceil((double) total / size));
+        response.put("records", pageInfo.getList());
+        response.put("total", pageInfo.getTotal());
+        response.put("page", pageInfo.getPageNum());
+        response.put("size", pageInfo.getPageSize());
+        response.put("pages", pageInfo.getPages());
         
         return response;
     }
