@@ -26,11 +26,14 @@
 import { ref, onMounted, getCurrentInstance, computed } from 'vue'
 import { CircleCheck, CircleClose } from '@element-plus/icons-vue'
 import { usePunchStore } from '../store/punch'
+import { useUserStore } from '../store/user'
 import { formatDate } from '../utils'
+import { PUNCH_CONSTANTS } from '../constants/punch'
 
 // 响应式数据
 const todayDate = ref('')
 const punchStore = usePunchStore()
+const userStore = useUserStore()
 const isPunched = computed(() => punchStore.isPunched)
 const punchedTime = computed(() => punchStore.punchedTime)
 
@@ -40,15 +43,30 @@ const formatTodayDate = () => {
 }
 
 const { proxy } = getCurrentInstance() as any
+
 // 打卡操作
 const handlePunchIn = async () => {
-  const success = await punchStore.punchIn()
-  if (success) {
-    proxy.$message.success("打卡成功")
-  } else if (punchStore.error) {
-    proxy.$message.error(punchStore.error)
-  } else {
-    proxy.$message.error('打卡失败！')
+  // 确保用户信息已加载
+  if (!userStore.userInfo.name) {
+    await userStore.fetchUserInfo()
+  }
+  
+  const username = userStore.userInfo.name || '未知用户'
+  
+  try {
+    // 调用store中的打卡方法（已封装API调用）
+    const success = await punchStore.punchIn(username)
+    
+    if (success) {
+      proxy.$message.success(PUNCH_CONSTANTS.MESSAGES.SUCCESS)
+    } else if (punchStore.error) {
+      proxy.$message.error(punchStore.error)
+    } else {
+      proxy.$message.error(PUNCH_CONSTANTS.MESSAGES.FAILED)
+    }
+  } catch (error) {
+    proxy.$message.error(PUNCH_CONSTANTS.MESSAGES.ERROR)
+    console.error('打卡失败:', error)
   }
 }
 

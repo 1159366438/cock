@@ -4,6 +4,7 @@
 import { defineStore } from 'pinia'
 import { punchApi } from '../api/punchApi'
 import type { PunchRecord } from '../types'
+import { PUNCH_CONSTANTS } from '../constants/punch'
 
 export const usePunchStore = defineStore('punch', {
   state: () => ({
@@ -19,13 +20,18 @@ export const usePunchStore = defineStore('punch', {
   },
   
   actions: {
-    async punchIn() {
+    async punchIn(username: string) {
       this.loading = true
       this.error = ''
       try {
-        const res = await punchApi.getPunchRecords()
-        if (res.status === 200) {
-          console.log('打卡记录:', res);
+        // 准备打卡数据
+        const punchTime = new Date().toISOString()
+        
+        // 调用打卡接口
+        const res = await punchApi.punchIn({ username, punchTime })
+        console.log('打卡接口响应:', res)
+        if (res.data.code === 200) {
+          // 打卡成功后更新本地状态
           this.isPunched = true
           const now = new Date()
           this.punchedTime = now.toLocaleTimeString('zh-CN', {
@@ -35,12 +41,12 @@ export const usePunchStore = defineStore('punch', {
           })
           return true
         } else {
-          this.error = '打卡失败'
+            this.error = PUNCH_CONSTANTS.MESSAGES.FAILED
           return false
         }
       } catch (error) {
-        this.error = '打卡时发生错误'
-        console.error('打卡接口异常:', error)
+        this.error = PUNCH_CONSTANTS.MESSAGES.ERROR
+        console.error('打卡异常:', error)
         return false
       } finally {
         this.loading = false
