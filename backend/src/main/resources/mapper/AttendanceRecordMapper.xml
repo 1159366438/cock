@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.AttendanceRecordDao">
+
+    <!-- 结果集映射 -->
+    <resultMap id="BaseResultMap" type="com.example.entity.AttendanceRecord">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="checkInTime" column="check_in_time" jdbcType="TIMESTAMP"/>
+        <result property="checkInType" column="check_in_type" jdbcType="INTEGER"/>
+        <result property="checkInStatus" column="check_in_status" jdbcType="INTEGER"/>
+        <result property="checkInLocation" column="check_in_location" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询单个 -->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+            id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
+        from attendance_record
+        where id = #{id}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+            id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
+        from attendance_record
+    </select>
+
+    <!-- 通过用户ID查询 -->
+    <select id="queryByUserId" resultMap="BaseResultMap">
+        select
+            id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
+        from attendance_record
+        where user_id = #{userId}
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.example.entity.AttendanceRecord">
+        insert into attendance_record (user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time)
+        values (#{userId}, #{checkInTime}, #{checkInType}, #{checkInStatus}, #{checkInLocation}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="com.example.entity.AttendanceRecord">
+        update attendance_record
+        set user_id = #{userId}, check_in_time = #{checkInTime}, check_in_type = #{checkInType}, 
+            check_in_status = #{checkInStatus}, check_in_location = #{checkInLocation}, update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from attendance_record
+        where id = #{id}
+    </delete>
+
+</mapper>

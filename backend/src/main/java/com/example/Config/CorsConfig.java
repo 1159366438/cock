@@ -1,4 +1,4 @@
-package com.example.Config;
+package com.example.config;
 
 import jakarta.servlet.*;
 import org.springframework.context.annotation.Configuration;

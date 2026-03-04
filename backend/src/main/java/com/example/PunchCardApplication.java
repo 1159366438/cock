@@ -1,8 +1,8 @@
-package com.example.PunchCardApplication;
+package com.example;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +11,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.example.Controller"})
+@MapperScan(basePackages = {"com.example.dao"})
+
 public class PunchCardApplication  {
 
     public static void main(String[] args) {

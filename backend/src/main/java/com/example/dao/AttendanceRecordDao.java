@@ -1,0 +1,59 @@
+package com.example.dao;
+
+import com.example.entity.AttendanceRecord;
+import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+
+/**
+ * 打卡记录(AttendanceRecord)数据访问层
+ */
+@Mapper
+public interface AttendanceRecordDao {
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    AttendanceRecord queryById(Integer id);
+
+    /**
+     * 查询所有打卡记录
+     *
+     * @return 打卡记录列表
+     */
+    List<AttendanceRecord> queryAll();
+
+    /**
+     * 通过用户ID查询打卡记录
+     *
+     * @param userId 用户ID
+     * @return 打卡记录列表
+     */
+    List<AttendanceRecord> queryByUserId(Integer userId);
+
+    /**
+     * 新增打卡记录
+     *
+     * @param attendanceRecord 实例对象
+     * @return 影响行数
+     */
+    int insert(AttendanceRecord attendanceRecord);
+
+    /**
+     * 修改打卡记录
+     *
+     * @param attendanceRecord 实例对象
+     * @return 影响行数
+     */
+    int update(AttendanceRecord attendanceRecord);
+
+    /**
+     * 通过主键删除数据
+     *
+     * @param id 主键
+     * @return 影响行数
+     */
+    int deleteById(Integer id);
+}

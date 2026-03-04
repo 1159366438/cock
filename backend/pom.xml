@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.5</version> <!-- 适配Spring Boot 4.0.x的最新稳定版 -->
+            <version>3.0.5</version> <!-- 稳定版本 -->
         </dependency>
 
         <!-- MySQL驱动（Spring Boot 4.0.x自动管理版本，无需手动指定） -->
@@ -69,6 +69,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.PunchCardApplication</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
