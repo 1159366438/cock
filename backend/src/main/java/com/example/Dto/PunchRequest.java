@@ -5,6 +5,7 @@ package com.example.dto;
  */
 public class PunchRequest {
     private String username; // 用户名
+    private Integer userId; // 用户ID
     private String punchTime; // 打卡时间（ISO格式）
 
     // getter和setter方法
@@ -14,6 +15,14 @@ public class PunchRequest {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getPunchTime() {
@@ -28,6 +37,7 @@ public class PunchRequest {
     public String toString() {
         return "PunchRequest{" +
                 "username='" + username + '\'' +
+                ", userId=" + userId +
                 ", punchTime='" + punchTime + '\'' +
                 '}';
     }

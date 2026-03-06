@@ -19,6 +19,14 @@ public interface UserDao {
     User queryById(Integer id);
 
     /**
+     * 根据用户名查询用户
+     *
+     * @param username 用户名
+     * @return 实例对象
+     */
+    User queryByUsername(String username);
+
+    /**
      * 查询所有用户数据
      *
      * @return 用户列表

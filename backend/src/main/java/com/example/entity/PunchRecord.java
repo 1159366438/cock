@@ -1,49 +1,35 @@
 package com.example.entity;
 
-import java.io.Serial;
 import java.util.Date;
 import java.io.Serializable;
 
 /**
- * 打卡记录表(AttendanceRecord)实体类
+ * (PunchRecord)实体类
  *
  * @author makejava
- * @since 2026-03-03 22:27:11
+ * @since 2026-03-06 19:35:42
  */
-public class AttendanceRecord implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -55051411624066171L;
-/**
-     * 主键ID
-     */
+public class PunchRecord implements Serializable {
+    private static final long serialVersionUID = -42311789699024229L;
+
     private Integer id;
-/**
-     * 打卡用户ID
-     */
+
     private Integer userId;
-/**
-     * 打卡时间
-     */
+
     private Date checkInTime;
 /**
-     * 打卡类型：1-上班打卡 2-下班打卡 3-加班打卡
+     * 1-上班打卡 2-下班打卡 3-加班打卡
      */
     private Integer checkInType;
 /**
-     * 打卡状态：1-正常 2-迟到 3-早退 4-旷工
+     * 1-正常 2-迟到 3-早退 4-旷工
      */
     private Integer checkInStatus;
-/**
-     * 打卡地点（如地址/经纬度）
-     */
+
     private String checkInLocation;
-/**
-     * 记录创建时间
-     */
+
     private Date createTime;
-/**
-     * 记录更新时间
-     */
+
     private Date updateTime;
 
 

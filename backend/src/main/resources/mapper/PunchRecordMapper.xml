@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.dao.AttendanceRecordDao">
+<mapper namespace="com.example.dao.PunchRecordDao">
 
     <!-- 结果集映射 -->
-    <resultMap id="BaseResultMap" type="com.example.entity.AttendanceRecord">
+    <resultMap id="BaseResultMap" type="com.example.entity.PunchRecord">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="checkInTime" column="check_in_time" jdbcType="TIMESTAMP"/>
@@ -20,7 +20,7 @@
     <select id="queryById" resultMap="BaseResultMap">
         select
             id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
-        from attendance_record
+        from punch_record
         where id = #{id}
     </select>
 
@@ -28,26 +28,26 @@
     <select id="queryAll" resultMap="BaseResultMap">
         select
             id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
-        from attendance_record
+        from punch_record
     </select>
 
     <!-- 通过用户ID查询 -->
     <select id="queryByUserId" resultMap="BaseResultMap">
         select
             id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
-        from attendance_record
+        from punch_record
         where user_id = #{userId}
     </select>
 
     <!-- 新增 -->
-    <insert id="insert" parameterType="com.example.entity.AttendanceRecord">
-        insert into attendance_record (user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time)
+    <insert id="insert" parameterType="com.example.entity.PunchRecord">
+        insert into punch_record (user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time)
         values (#{userId}, #{checkInTime}, #{checkInType}, #{checkInStatus}, #{checkInLocation}, #{createTime}, #{updateTime})
     </insert>
 
     <!-- 修改 -->
-    <update id="update" parameterType="com.example.entity.AttendanceRecord">
-        update attendance_record
+    <update id="update" parameterType="com.example.entity.PunchRecord">
+        update punch_record
         set user_id = #{userId}, check_in_time = #{checkInTime}, check_in_type = #{checkInType}, 
             check_in_status = #{checkInStatus}, check_in_location = #{checkInLocation}, update_time = #{updateTime}
         where id = #{id}
@@ -55,7 +55,7 @@
 
     <!-- 删除 -->
     <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from attendance_record
+        delete from punch_record
         where id = #{id}
     </delete>
 
@@ -63,14 +63,30 @@
     <select id="queryByPage" resultMap="BaseResultMap">
         select
             id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
-        from attendance_record
+        from punch_record
         order by create_time desc
         limit #{limit} offset #{offset}
     </select>
 
     <!-- 查询总记录数 -->
     <select id="countAll" resultType="int">
-        select count(*) from attendance_record
+        select count(*) from punch_record
+    </select>
+
+    <!-- 根据用户ID查询打卡记录总数 -->
+    <select id="countByUserId" resultType="int">
+        select count(*) from punch_record
+        where user_id = #{userId}
+    </select>
+
+    <!-- 根据用户ID分页查询打卡记录 -->
+    <select id="queryByUserIdAndPage" resultMap="BaseResultMap">
+        select
+            id, user_id, check_in_time, check_in_type, check_in_status, check_in_location, create_time, update_time
+        from punch_record
+        where user_id = #{userId}
+        order by create_time desc
+        limit #{limit} offset #{offset}
     </select>
 
 </mapper>

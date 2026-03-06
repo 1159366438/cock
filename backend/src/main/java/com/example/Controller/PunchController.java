@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.dto.PunchRequest;
 import com.example.dto.PunchResponse;
-import com.example.entity.AttendanceRecord;
-import com.example.service.AttendanceRecordService;
+import com.example.entity.PunchRecord;
+import com.example.entity.User;
+import com.example.service.PunchRecordService;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,10 @@ import java.util.TimeZone;
 public class PunchController {
 
     @Autowired
-    private AttendanceRecordService attendanceRecordService;
+    private PunchRecordService punchRecordService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 获取打卡记录接口（分页）
@@ -38,16 +43,17 @@ public class PunchController {
      */
     @GetMapping("/record")
     public Map<String, Object> getPunchRecords(
+            @RequestParam("userId") Integer userId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int size) {
 
-        System.out.println("获取打卡记录请求成功，页码: " + page + ", 每页数量: " + size);
+        System.out.println("获取打卡记录请求成功，用户ID: " + userId + ", 页码: " + page + ", 每页数量: " + size);
         
         // 计算总数
-        int total = attendanceRecordService.countAll();
+        int total = punchRecordService.countByUserId(userId);
         
         // 获取分页数据
-        List<AttendanceRecord> records = attendanceRecordService.queryByPage(page, size);
+        List<PunchRecord> records = punchRecordService.queryByUserIdAndPage(userId, page, size);
         
         // 构造响应数据
         Map<String, Object> response = new HashMap<>();
@@ -75,34 +81,40 @@ public class PunchController {
         System.out.println("打卡请求：" + punchRequest);
 
         try {
-            // 1. 根据用户名查询用户信息，获取用户ID
-            // 这里简化处理，实际应该通过用户名查询用户信息
-            // 假设用户ID为1
-            Integer userId = 1;
+            // 1. 获取前台传递的用户ID
+            Integer userId = punchRequest.getUserId();
+            if (userId == null) {
+                return new PunchResponse(400, "用户ID不能为空");
+            }
 
+            // 2. 查询用户信息，确保用户存在
+            User user = userService.queryById(userId);
+            if (user == null) {
+                return new PunchResponse(404, "用户不存在");
+            }
 
-            // 设置为北京时间
+            // 3. 设置为北京时间
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 
-            // 获取当前时间的Date对象
+            // 4. 获取当前时间的Date对象
             Date now = new Date();
 
-            // 格式化显示
+            // 5. 格式化显示
             String formattedDate = sdf.format(now);
             System.out.println("当前时间（北京时间）: " + formattedDate);
             System.out.println("Date对象: " + now);
 
-            // 3. 创建打卡记录
-            AttendanceRecord attendanceRecord = new AttendanceRecord();
-            attendanceRecord.setUserId(userId);
-            attendanceRecord.setCheckInTime(now);
-            attendanceRecord.setCheckInType(1); // 1-上班打卡
-            attendanceRecord.setCheckInStatus(1); // 1-正常
-            attendanceRecord.setCheckInLocation("公司"); // 假设打卡地点为公司
+            // 6. 创建打卡记录
+            PunchRecord punchRecord = new PunchRecord();
+            punchRecord.setUserId(userId);
+            punchRecord.setCheckInTime(now);
+            punchRecord.setCheckInType(1); // 1-上班打卡
+            punchRecord.setCheckInStatus(1); // 1-正常
+            punchRecord.setCheckInLocation("公司"); // 假设打卡地点为公司
 
-            // 4. 保存打卡记录
-            int result = attendanceRecordService.punchIn(attendanceRecord);
+            // 7. 保存打卡记录
+            int result = punchRecordService.punchIn(punchRecord);
 
             if (result > 0) {
                 return new PunchResponse(200, "打卡成功");

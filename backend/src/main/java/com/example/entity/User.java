@@ -1,33 +1,25 @@
 package com.example.entity;
 
-import java.io.Serial;
 import java.util.Date;
 import java.io.Serializable;
 
 /**
- * 用户信息表(User)实体类
+ * (User)实体类
  *
  * @author makejava
- * @since 2026-03-03 22:27:31
+ * @since 2026-03-06 19:35:29
  */
 public class User implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 292508883616104415L;
-/**
-     * 用户唯一ID
-     */
+    private static final long serialVersionUID = 874813741216031059L;
+
     private Integer id;
-/**
-     * 用户名
-     */
+
     private String username;
-/**
-     * 年龄
-     */
+
     private Integer age;
-/**
-     * 创建时间
-     */
+
+    private String avatar;
+
     private Date createTime;
 
 
@@ -53,6 +45,14 @@ public class User implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Date getCreateTime() {
