@@ -7,6 +7,7 @@ import type { PunchRecord } from '../../types'
 import { PUNCH_CONSTANTS } from '../../constants/punch'
 import { BUSINESS_STATUS } from '../../constants/api'
 import { t } from '../../locales'
+import { normalizeResponse } from '../../api/responseUtils'
 
 export const usePunchStore = defineStore('punch', {
   state: () => ({
@@ -73,22 +74,21 @@ export const usePunchStore = defineStore('punch', {
       this.loading = true
       this.error = ''
       try {
-        const res = await punchApi.getPunchRecords({ userId, page, size })
-        console.log('获取打卡记录响应:', res)
-        if (res.status === BUSINESS_STATUS.SUCCESS) {
-          // 更新分页数据
+        const res = await punchApi.getPunchRecords({ userId, page, size });
+        console.log('获取打卡记录响应:', res);
+        const { success, data } = normalizeResponse(res);
+        if (success) {
+          const body = data || {};
           this.pagination = {
-            records: res.data.records || [],
-            total: res.data.total || 0,
-            page: res.data.page || 1,
-            size: res.data.size || 15,
-            pages: res.data.pages || 0
+            records: body.records || [],
+            total: body.total || 0,
+            page: body.page || 1,
+            size: body.size || 15,
+            pages: body.pages || 0
           };
-          
-          // 为了向后兼容，也更新旧的punchRecords字段
-          this.punchRecords = res.data.records || [];
+          this.punchRecords = this.pagination.records;
         } else {
-          this.error = t('messages.getUserInfoFailed', '获取打卡记录失败')
+          this.error = t('messages.getUserInfoFailed', '获取打卡记录失败');
         }
       } catch (error) {
         this.error = t('messages.getUserInfoError', '获取打卡记录时发生错误')
