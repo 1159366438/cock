@@ -1,8 +1,8 @@
 import { BUSINESS_STATUS } from '../constants/api';
 
-// Normalize backend responses. Some endpoints return {code,msg,...},
-// others return raw data and rely on HTTP status.
-// This helper abstracts the check and returns a uniform object.
+// 统一处理后端响应。有些接口返回 {code,msg,...}，
+// 有些返回原始数据并依赖 HTTP 状态。
+// 这个工具函数抽象化这种检查逻辑，返回统一格式。
 
 export interface NormalizedResponse<T = any> {
   success: boolean;
@@ -15,11 +15,11 @@ export function normalizeResponse<T>(res: any): NormalizedResponse<T> {
   const status = res?.status || 0;
   const payload = res?.data;
 
-  // If response body has a "code" field, treat as business response.
+  // 如果响应体有 code 字段，作为业务响应处理
   if (payload && typeof payload === 'object' && 'code' in payload) {
-    // backend may return code and message fields
+    // 后端可能返回 code 和 message 字段
     const code = payload.code;
-    // require both HTTP 200 and business-code 200 for success
+    // 同时要求 HTTP 状态 200 和业务码 200 才视为成功
     const success = status === BUSINESS_STATUS.SUCCESS && code === BUSINESS_STATUS.SUCCESS;
     return {
       success,
@@ -29,7 +29,7 @@ export function normalizeResponse<T>(res: any): NormalizedResponse<T> {
     };
   }
 
-  // Fallback: rely on HTTP status code alone
+  // 降级方案：仅依赖 HTTP 状态码
   const success = status === BUSINESS_STATUS.SUCCESS;
   return {
     success,
