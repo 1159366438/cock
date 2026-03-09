@@ -11,7 +11,13 @@ export const PUNCH_CONSTANTS = {
     FAILED: () => t('messages.punchFailed', '打卡失败！'),
     ERROR: () => t('messages.punchError', '打卡时发生错误'),
     NETWORK_ERROR: () => t('messages.networkError', '网络异常，请稍后重试'),
-    INVALID_USER: () => t('messages.invalidUser', '用户信息无效')
+    INVALID_USER: () => t('messages.invalidUser', '用户信息无效'),
+    // 获取打卡记录相关消息
+    FETCH_RECORDS_SUCCESS: () => t('messages.fetchRecordsSuccess', '获取打卡记录成功'),
+    FETCH_RECORDS_FAILED: () => t('messages.fetchRecordsFailed', '获取打卡记录失败'),
+    FETCH_RECORDS_ERROR: () => t('messages.fetchRecordsError', '获取打卡记录时发生错误'),
+    NO_RECORDS_FOUND: () => t('messages.noRecordsFound', '暂无打卡记录'),
+    RECORDS_LOAD_ERROR: () => t('messages.recordsLoadError', '加载打卡记录出错')
   },
   
   // 打卡状态

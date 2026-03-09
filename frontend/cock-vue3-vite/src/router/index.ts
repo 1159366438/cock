@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import PunchPage from '../pages/home/PunchPage.vue'
 import RecordPage from '../pages/home/RecordPage.vue'
+import { PAGE_NAMES } from '../constants/punch'
 
 const routes = [
   {
@@ -11,13 +12,13 @@ const routes = [
     path: '/punch',
     name: 'PunchPage',
     component: PunchPage,
-    meta: { title: '打卡页面' }
+    meta: { title: PAGE_NAMES.PUNCH() }
   },
   {
     path: '/record',
     name: 'RecordPage',
     component: RecordPage,
-    meta: { title: '打卡记录' }
+    meta: { title: PAGE_NAMES.RECORD() }
   }
 ]
 

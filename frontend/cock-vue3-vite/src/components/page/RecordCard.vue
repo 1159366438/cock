@@ -5,7 +5,7 @@
       stripe 
       style="width: 100%" 
       v-loading="loading"
-      empty-text="暂无打卡记录"
+      :empty-text="noRecordsText"
     >
       <el-table-column :label="dateLabel" width="180">
         <template #default="{ row }">
@@ -52,16 +52,19 @@ import { usePunchStore, useUserStore } from '../../store'
 import { t } from '../../locales'
 import { formatDate } from '../../utils'
 import type { PunchRecord } from '../../types'
+import { ElMessage } from 'element-plus'
+import { PUNCH_CONSTANTS } from '../../constants/punch'
 
 // Store
 const punchStore = usePunchStore()
 const userStore = useUserStore()
 
 // Labels
-const dateLabel = computed(() => t('record.date', 'Date'))
-const nameLabel = computed(() => t('record.name', 'Name'))
-const timeLabel = computed(() => t('record.time', 'Time'))
-const locationLabel = computed(() => t('record.location', '打卡地点'))
+const dateLabel = t('record.date', 'Date')
+const nameLabel = t('record.name', 'Name')
+const timeLabel = t('record.time', 'Time')
+const locationLabel = t('record.location', '打卡地点')
+const noRecordsText = t('messages.noRecordsFound', '暂无打卡记录')
 
 // Computed properties
 const tableData = computed<PunchRecord[]>(() => punchStore.pagination.records || [])
@@ -108,11 +111,11 @@ const formatTimeField = (dateValue: Date | string | undefined): string => {
 const formatUserId = (userId: number | undefined): string => {
   if (typeof userId !== 'number') return '-'
   // 如果需要显示用户名而非ID，可以在这里查询用户信息
-  return `用户${userId}`
+  return `${t('messages.userPrefix', '用户')}${userId}`
 }
 
 const locationFormatter = (_row: PunchRecord, _column: unknown, cellValue: string): string => {
-  return cellValue || '未知地点'
+  return cellValue || t('messages.unknownLocation', '未知地点')
 }
 
 // 分页大小改变事件
@@ -136,9 +139,25 @@ const loadPunchRecords = async (page: number, size: number) => {
       await userStore.fetchUserInfo()
     }
     const userId = userStore.userInfo.userId || 1
-    await punchStore.fetchPunchRecords(userId, page, size)
+    const success = await punchStore.fetchPunchRecords(userId, page, size)
+    if (success) {
+      ElMessage.success(PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_SUCCESS())
+      console.log('获取打卡记录成功:', {
+        total: punchStore.pagination.total,
+        currentPage: punchStore.pagination.page,
+        recordsCount: punchStore.pagination.records.length
+      })
+    }
+    else if (punchStore.error) {
+      console.error('else if获取打卡记录失败:', punchStore.error)
+      ElMessage.error(punchStore.error)
+    } else {
+      ElMessage.error(PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_FAILED())
+    }
   } catch (err) {
     console.error('获取打卡记录失败:', err)
+    ElMessage.error(PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_ERROR())
+    return false
   }
 }
 

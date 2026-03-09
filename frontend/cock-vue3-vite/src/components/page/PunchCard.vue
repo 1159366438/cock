@@ -1,7 +1,7 @@
 <template>
   <div class="punch-card">
     <div class="punch-header">
-      <h2>今日打卡</h2>
+      <h2>{{ todayText }}</h2>
       <span class="date">{{ todayDate }}</span>
     </div>
     <div class="punch-body">
@@ -9,13 +9,13 @@
         <div class="punch-status">
           <el-icon :size="APP_CONFIG.UI.SIZES.ICON_SIZE" :color="APP_CONFIG.UI.COLORS.PRIMARY_SUCCESS" v-if="isPunched"><CircleCheck /></el-icon>
           <el-icon :size="APP_CONFIG.UI.SIZES.ICON_SIZE" :color="APP_CONFIG.UI.COLORS.PRIMARY_ERROR" v-else><CircleClose /></el-icon>
-          <p>{{ isPunched ? t('punchStatus.punched', '今日已打卡') : t('punchStatus.unpunched', '今日未打卡') }}</p>
+          <p>{{ punchStatusText }}</p>
         </div>
         <el-button type="primary" size="large" @click="handlePunchIn" v-if="!isPunched">
-          立即打卡
+          {{ punchButtonText }}
         </el-button>
         <el-button type="success" size="large" disabled v-else>
-          已打卡（{{ punchedTime }}）
+          {{ alreadyPunchedText }}（{{ punchedTime }}）
         </el-button>
       </el-card>
     </div>
@@ -28,6 +28,7 @@ import { CircleCheck, CircleClose } from '@element-plus/icons-vue'
 import { usePunchStore, useUserStore } from '../../store'
 import { formatDate } from '../../utils'
 import { PUNCH_CONSTANTS } from '../../constants/punch'
+import { getMenuText } from '../../constants/menu'
 import { ElMessage } from 'element-plus'
 import { APP_CONFIG } from '../../config/appConfig'
 import { t } from '../../locales'
@@ -38,6 +39,10 @@ const punchStore = usePunchStore()
 const userStore = useUserStore()
 const isPunched = computed(() => punchStore.isPunched)
 const punchedTime = computed(() => punchStore.punchedTime)
+const todayText = getMenuText('today', '今日打卡')
+const punchStatusText = computed(() => isPunched.value ? t('punchStatus.punched', '今日已打卡') : t('punchStatus.unpunched', '今日未打卡'))
+const punchButtonText = t('punchNow', '立即打卡')
+const alreadyPunchedText = t('alreadyPunched', '已打卡')
 
 // 格式化今日日期
 const formatTodayDate = () => {
@@ -51,7 +56,7 @@ const handlePunchIn = async () => {
     await userStore.fetchUserInfo()
   }
   
-  const username = userStore.userInfo.name || '未知用户'
+  const username = userStore.userInfo.name || t('messages.unknownUser', '未知用户')
   const userId = userStore.userInfo.userId || 1
   try {
     // 调用store中的打卡方法（已封装API调用）

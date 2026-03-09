@@ -84,13 +84,15 @@ export const usePunchStore = defineStore('punch', {
             size: res.data.size || 15,
             pages: res.data.pages || 0
           };
+          return true; // 成功返回 true
         } else {
-          this.error = t('messages.getUserInfoFailed', '获取打卡记录失败')
+          this.error = PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_FAILED()
+          return false; // 失败返回 false
         }
       } catch (error) {
-        this.error = t('messages.getUserInfoError', '获取打卡记录时发生错误')
-        // 开发调试时可以启用日志
-        // console.error('获取打卡记录失败:', error)
+        this.error = PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_ERROR()
+        console.error('获取打卡记录失败:', error)
+        return false; // 异常返回 false
       } finally {
         this.loading = false
       }
