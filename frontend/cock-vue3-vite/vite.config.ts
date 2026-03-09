@@ -25,8 +25,41 @@ export default defineConfig({
       }
     }
   },
+
+  // 4. 构建配置 - 生产环境禁用 source map，防止源码暴露
+  build: {
+    sourcemap: false, // 禁用 source map，防止代码被反向工程
+    minify: 'terser', // 使用 terser 压缩，提高混淆效果
+    terserOptions: {
+      compress: {
+        drop_console: true, // 生产环境移除 console 日志
+      },
+      format: {
+        comments: false, // 移除注释
+      },
+    },
+    rollupOptions: {
+      output: {
+        // 输出目录结构，避免浏览器可以直接列出文件
+        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: 'js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|gif|svg/.test(ext)) {
+            return `images/[name]-[hash][extname]`;
+          } else if (/woff|woff2|eot|ttf|otf/.test(ext)) {
+            return `fonts/[name]-[hash][extname]`;
+          } else if (ext === 'css') {
+            return `css/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        }
+      }
+    }
+  },
   
-  // 4. 全局环境变量（替代硬编码，API文件中可直接读取）
+  // 5. 全局环境变量（替代硬编码，API文件中可直接读取）
   define: {
     // 生产环境地址（若无需代理，可直接用这个地址）
     __API_BASE_URL__: JSON.stringify('http://localhost:8080')
