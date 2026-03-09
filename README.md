@@ -1,22 +1,50 @@
-# Vue 3 + TypeScript + Vite
+# 考勤系统 (Attendance System)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+基于前后端分离架构的现代化考勤管理系统，旨在提供高效的员工打卡和考勤记录管理功能。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 技术栈
 
-# 员工打卡项目
-# 前后端分离
-# 前段暂定技术
-    Axios        : 1.13.5,
-    Element-plus : 2.13.2,
-    Vue          : 3.5.25,
-    Vue-router   : 4.6.4,
-    pinia        : 2.3.1
-# 后端暂定技术
-    Springboot4  : 4.0.2
-    Mybatis      : 3.0.5
-    Mysql        : 无需手动指定
-    Redis        : 暂未添加
-    Docker       : 暂未添加
-    RabbitMQ     : 暂未添加
-    后续可能拆分成微服务SpringCloud
+### 前端技术
+- **Vue.js 3** (^3.5.25) - 渐进式 JavaScript 框架，使用 Composition API 和 `<script setup>` 语法
+- **TypeScript** (~5.9.3) - 为 JavaScript 添加静态类型检查，提升代码质量和可维护性
+- **Vite** (7.3.1) - 下一代前端构建工具，提供快速的热更新和构建速度
+- **Element Plus** (^2.13.2) - 基于 Vue 3 的桌面端组件库，提供丰富的 UI 组件
+- **@element-plus/icons-vue** (^2.3.2) - Element Plus 图标库，提供丰富的 SVG 图标
+- **Pinia** (^2.3.1) - Vue 官方推荐的状态管理库，轻量且易于使用
+- **Vue Router** (^4.6.4) - Vue.js 的官方路由管理器，支持嵌套路由和动态路由
+- **Axios** (^1.13.5) - 基于 Promise 的 HTTP 客户端，用于发起 API 请求
+- **国际化 (i18n)** - 支持多语言，便于系统国际化部署
+
+### 后端技术
+- **Spring Boot 4** (4.0.2) - 用于快速构建基于 Spring 的应用程序
+- **MyBatis** (3.0.5) - 持久层框架，简化数据库操作
+- **MySQL** - 关系型数据库管理系统
+
+## 项目特点
+
+- **现代化架构**：采用前后端分离设计，便于团队协作和独立部署
+- **组件化开发**：使用 Vue 3 的组件化思想，提高代码复用性和可维护性
+- **状态管理**：使用 Pinia 进行全局状态管理，统一数据流
+- **响应式设计**：适配不同屏幕尺寸，支持移动端和桌面端访问
+- **国际化支持**：内置多语言支持，便于全球化部署
+- **代码规范**：遵循业界最佳实践，使用 TypeScript 提升代码质量
+
+## 开发环境
+
+- **Java JDK** (v17+) - Java 开发工具包
+- **Node.js** (v20.x) - JavaScript 运行时环境
+- **ESLint** (v9.x) - JavaScript/TypeScript 代码检查工具
+- **Prettier** (v3.x) - 代码格式化工具
+- **Git** (v2.x) - 版本控制系统
+
+## 未来规划
+
+- Redis (待集成) - 内存数据结构存储，可用作缓存和会话存储
+- Docker (待集成) - 容器化平台，便于应用部署和扩展
+- RabbitMQ (待集成) - 消息队列，支持异步处理和解耦
+- Spring Cloud (待集成) - 微服务架构解决方案
+- 增加更多考勤管理功能
+- 优化用户体验和界面设计
+- 添加数据分析和报表功能
+- 集成通知系统（邮件、短信等）
+- 扩展移动端支持
