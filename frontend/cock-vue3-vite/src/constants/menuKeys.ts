@@ -14,6 +14,12 @@ export const MENU_KEYS = {
     ABOUT: 'about',
     SYSTEM: 'system',
     SYSTEM_NAME: 'systemName',
+    NAVIGATION_TWO: '2',
+    NAVIGATION_THREE: '3',
+    NAVIGATION_FOUR: '4',
+    NAVIGATOR_TWO: 'navigatorTwo',
+    NAVIGATOR_THREE: 'navigatorThree',
+    NAVIGATOR_FOUR: 'navigatorFour',
   },
   
   // 页面相关

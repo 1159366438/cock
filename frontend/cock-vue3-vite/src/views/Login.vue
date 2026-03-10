@@ -60,9 +60,9 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../store'
 import { ElMessage } from 'element-plus'
 import { MESSAGE_CONSTANTS } from '../constants/messages'
-import { USER_CONSTANTS } from '../constants/user'
 import { LOGIN_CONSTANTS } from '../constants/login'
-import { ROUTE_PATHS } from '../constants/routes'
+import { ROUTE_CONSTANTS } from '../constants/routeConstants'
+import { USER_CONSTANTS } from '../constants/user'
 import { BOOLEAN_CONSTANTS } from '../constants/booleans'
 import { FORM_VALIDATION_CONSTANTS } from '../constants/formValidation'
 // import { APP_CONFIG } from '../config/appConfig'  // 暂时注释掉未使用的导入
@@ -153,7 +153,7 @@ const handleLogin = async () => {
       // 检查是否有重定向路径
       const redirectPath = router.currentRoute.value.query.redirect as string
       // 跳转到指定页面或首页
-      router.push({ path: redirectPath || ROUTE_PATHS.PAGES.HOME })
+      router.push({ path: redirectPath || ROUTE_CONSTANTS.PATHS.PAGES.HOME })
     } else {
       ElMessage.error(result.message || MESSAGE_CONSTANTS.USER_INFO.LOGIN_FAILED())
     }

@@ -64,7 +64,7 @@ import { getMenuText, type MenuText} from '../constants/menu';
 import { APP_CONFIG } from '../config/appConfig';
 import { ElMessage } from 'element-plus'
 import { LAYOUT_CONSTANTS } from '../constants/layout'
-import { ROUTE_PATHS } from '../constants/routes'
+import { ROUTE_CONSTANTS } from '../constants/routeConstants'
 import { LAYOUT_MENU_CONSTANTS } from '../constants/layoutMenu'
 import { MENU_KEYS } from '../constants/menuKeys'
 
@@ -95,15 +95,15 @@ const navigatorFourText = computed(() => getMenuText(LAYOUT_MENU_CONSTANTS.NAVIG
 
 // 根据路由路径获取对应的菜单键
 const getMenuKeyByPath = (path: string) => {
-  if (path === ROUTE_PATHS.PAGES.PUNCH) return LAYOUT_MENU_CONSTANTS.INDEXES.PUNCH
-  if (path === ROUTE_PATHS.PAGES.RECORD) return LAYOUT_MENU_CONSTANTS.INDEXES.RECORD
+  if (path === ROUTE_CONSTANTS.PATHS.PAGES.PUNCH) return LAYOUT_MENU_CONSTANTS.INDEXES.PUNCH
+  if (path === ROUTE_CONSTANTS.PATHS.PAGES.RECORD) return LAYOUT_MENU_CONSTANTS.INDEXES.RECORD
   return LAYOUT_MENU_CONSTANTS.INDEXES.PUNCH // 默认返回打卡页面
 }
 
 // 根据路由路径获取对应的菜单文本
 const getMenuTextByPath = (path: string) => {
-  if (path === ROUTE_PATHS.PAGES.PUNCH) return getMenuText(MENU_KEYS.MAIN.TODAY)
-  if (path === ROUTE_PATHS.PAGES.RECORD) return getMenuText(MENU_KEYS.MAIN.RECORD)
+  if (path === ROUTE_CONSTANTS.PATHS.PAGES.PUNCH) return getMenuText(MENU_KEYS.MAIN.TODAY)
+  if (path === ROUTE_CONSTANTS.PATHS.PAGES.RECORD) return getMenuText(MENU_KEYS.MAIN.RECORD)
   return getMenuText(MENU_KEYS.MAIN.TODAY) // 默认返回打卡文本
 }
 
@@ -121,9 +121,9 @@ const handleMenuSelect = (key: string) => {
   // console.log('切换到菜单：', key)
   // 根据菜单key跳转到对应路由
   if (key === LAYOUT_MENU_CONSTANTS.INDEXES.PUNCH) {
-    router.push(ROUTE_PATHS.PAGES.PUNCH)
+    router.push(ROUTE_CONSTANTS.PATHS.PAGES.PUNCH)
   } else if (key === LAYOUT_MENU_CONSTANTS.INDEXES.RECORD) {
-    router.push(ROUTE_PATHS.PAGES.RECORD)
+    router.push(ROUTE_CONSTANTS.PATHS.PAGES.RECORD)
   }
 }
 
@@ -147,7 +147,7 @@ const handleLogout = async () => {
     if (result.success) {
       ElMessage.success(result.message)
       // 跳转到登录页
-      router.push(ROUTE_PATHS.AUTH.LOGIN)
+      router.push(ROUTE_CONSTANTS.PATHS.AUTH.LOGIN)
     } else {
       ElMessage.error(result.message)
     }
