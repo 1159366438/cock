@@ -8,7 +8,7 @@ import { PUNCH_CONSTANTS, PUNCH_STORE_CONSTANTS } from '../../constants/punchCon
 import { STATUS_CODES } from '../../constants/statusCodes'
 import { TABLE_CONSTANTS } from '../../constants/table'
 import { BOOLEAN_CONSTANTS } from '../../constants/booleans'
-import { STORE_NAMES } from '../../constants/storeNames'
+import { STORE_NAMES } from '../../constants/appArchitectureConstants'
 
 
 export const usePunchStore = defineStore(STORE_NAMES.PUNCH, {

@@ -26,7 +26,7 @@ import { formatDate } from '../../utils'
 import { ElMessage } from 'element-plus'
 import { APP_CONFIG } from '../../config/appConfig'
 import { USER_INFO_CONSTANTS } from '../../constants/userConstants'
-import { EVENT_CONSTANTS } from '../../constants/events'
+import { EVENT_CONSTANTS } from '../../constants/appArchitectureConstants'
 
 
 // 接收父组件传递的菜单文本

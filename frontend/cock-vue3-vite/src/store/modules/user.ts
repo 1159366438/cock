@@ -8,7 +8,7 @@ import { USER_CONSTANTS } from '../../constants/userConstants'
 import { STATUS_CODES } from '../../constants/statusCodes'
 import { BOOLEAN_CONSTANTS } from '../../constants/booleans'
 import { MESSAGE_CONSTANTS } from '../../constants/messages'
-import { STORE_NAMES } from '../../constants/storeNames'
+import { STORE_NAMES } from '../../constants/appArchitectureConstants'
 // import { t } from '../../locales'  // 移除未使用的导入
 
 export const useUserStore = defineStore(STORE_NAMES.USER, {
