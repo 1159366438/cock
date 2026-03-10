@@ -1,11 +1,52 @@
 /**
  * 菜单相关常量
- * 管理菜单中使用的各种常量值
+ * 管理菜单中使用的各种常量值，包括键值、文本和工具函数
  */
 
 import { t } from '../locales'
 
+// 类型约束：菜单Key类型
+export type MenuKey = 'system' | 'systemName' | 'today' | 'record' | '2' | '3' | '4' | 'navigatorTwo' | 'navigatorThree' | 'navigatorFour';
+
+// 类型约束：菜单文本类型
+export type MenuText = string;
+
 export const MENU_CONSTANTS = {
+  // 菜单键值
+  KEYS: {
+    // 主要菜单项
+    MAIN: {
+      TODAY: 'today',
+      RECORD: 'record',
+      SETTINGS: 'settings',
+      PROFILE: 'profile',
+      HOME: 'home',
+      ABOUT: 'about',
+      SYSTEM: 'system',
+      SYSTEM_NAME: 'systemName',
+      NAVIGATION_TWO: '2',
+      NAVIGATION_THREE: '3',
+      NAVIGATION_FOUR: '4',
+      NAVIGATOR_TWO: 'navigatorTwo',
+      NAVIGATOR_THREE: 'navigatorThree',
+      NAVIGATOR_FOUR: 'navigatorFour',
+    },
+    
+    // 页面相关
+    PAGES: {
+      PUNCH_CARD: 'punchCard',
+      RECORD_PAGE: 'recordPage',
+      SETTINGS_PAGE: 'settingsPage',
+    },
+    
+    // 功能相关
+    FEATURES: {
+      PUNCH_IN: 'punchIn',
+      VIEW_RECORDS: 'viewRecords',
+      UPDATE_PROFILE: 'updateProfile',
+    }
+  },
+
   // 菜单项文本
   ITEMS: {
     SYSTEM: () => t('menu.system', '员工内网'),
@@ -38,3 +79,43 @@ export const MENU_CONSTANTS = {
     }
   }
 }
+
+/**
+ * 根据菜单Key获取对应的显示文本
+ * @param key 菜单索引（支持字符串/数字类型）
+ * @param defaultText 兜底文本（默认：员工内网）
+ * @returns 菜单显示文本
+ */
+export function getMenuText(key: string | number, defaultText: MenuText = '员工内网'): MenuText {
+  // 使用常量替代直接的国际化调用
+  return MENU_CONSTANTS.getMenuText(key, defaultText);
+}
+
+/**
+ * 获取所有菜单Key列表
+ * @returns 菜单Key数组
+ */
+export function getAllMenuKeys(): MenuKey[] {
+  return ['system', 'systemName', 'today', 'record', '2', '3', '4'];
+}
+
+/**
+ * 验证菜单Key是否有效
+ * @param key 待验证的菜单索引
+ * @returns 是否为有效菜单Key
+ */
+export function isValidMenuKey(key: string | number): boolean {
+  const keyStr = String(key);
+  return getAllMenuKeys().includes(keyStr as MenuKey);
+}
+
+/**
+ * 获取所有菜单文本列表
+ * @returns 菜单文本数组
+ */
+export function getAllMenuTexts(): MenuText[] {
+  return getAllMenuKeys().map(key => getMenuText(key));
+}
+
+// 为了向后兼容，导出MENU_KEYS
+export const MENU_KEYS = MENU_CONSTANTS.KEYS;

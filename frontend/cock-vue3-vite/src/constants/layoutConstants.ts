@@ -1,11 +1,18 @@
 /**
  * 布局相关常量
- * 管理应用中使用的布局相关常量
+ * 管理应用中使用的布局和菜单相关常量
  */
 
-export const LAYOUT_MENU_CONSTANTS = {
+import { t } from '../locales'
+
+export const LAYOUT_CONSTANTS = {
+  // 消息文本
+  MESSAGES: {
+    LOGOUT_ERROR: () => t('messages.logoutError', '登出过程中出现错误'),
+  },
+  
   // 菜单项索引
-  INDEXES: {
+  MENU_INDEXES: {
     DEFAULT_OPENED: ['1'],  // 默认展开的菜单
     SUB_MENU_SYSTEM: '1',   // 系统子菜单
     NAVIGATION_TWO: '2',    // 导航项2
@@ -23,7 +30,7 @@ export const LAYOUT_MENU_CONSTANTS = {
   },
   
   // 菜单配置
-  CONFIG: {
+  MENU_CONFIG: {
     ACTIVE_TEXT_COLOR: '#409EFF',
     BACKGROUND_COLOR: '#545c64',
     TEXT_COLOR: '#fff',

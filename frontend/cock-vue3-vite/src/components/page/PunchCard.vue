@@ -28,11 +28,10 @@ import { CircleCheck, CircleClose } from '@element-plus/icons-vue'
 import { usePunchStore, useUserStore } from '../../store'
 import { formatDate } from '../../utils'
 import { PUNCH_CONSTANTS } from '../../constants/punch'
-import { getMenuText } from '../../constants/menu'
+import { getMenuText, MENU_KEYS } from '../../constants/menuConstants'
 import { ElMessage } from 'element-plus'
 import { APP_CONFIG } from '../../config/appConfig'
 import { PUNCH_CARD_CONSTANTS } from '../../constants/punchCard'
-import { MENU_KEYS } from '../../constants/menuKeys'
 import { I18N_FALLBACKS } from '../../constants/i18nFallbacks'
 
 // 响应式数据
