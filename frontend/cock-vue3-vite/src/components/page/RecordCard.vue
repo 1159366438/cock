@@ -7,17 +7,17 @@
       v-loading="loading"
       :empty-text="noRecordsText"
     >
-      <el-table-column :label="dateLabel" width="180">
+      <el-table-column :label="dateLabel" :width="TABLE_CONSTANTS.COLUMN_WIDTHS.DATE">
         <template #default="{ row }">
           {{ formatDateField(row.checkInTime) }}
         </template>
       </el-table-column>
-      <el-table-column :label="nameLabel" width="180">
+      <el-table-column :label="nameLabel" :width="TABLE_CONSTANTS.COLUMN_WIDTHS.NAME">
         <template #default="{ row }">
           {{ formatUserId(row.userId) }}
         </template>
       </el-table-column>
-      <el-table-column :label="timeLabel" width="180">
+      <el-table-column :label="timeLabel" :width="TABLE_CONSTANTS.COLUMN_WIDTHS.TIME">
         <template #default="{ row }">
           {{ formatTimeField(row.checkInTime) }}
         </template>
@@ -33,7 +33,7 @@
     <el-pagination
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
-      :page-sizes="[15, 30, 50, 100]"
+      :page-sizes="TABLE_CONSTANTS.PAGINATION.OPTIONS"
       :small="false"
       :disabled="false"
       :background="false"
@@ -49,22 +49,23 @@
 <script setup lang="ts">
 import { onMounted, computed, onErrorCaptured, ref } from 'vue'
 import { usePunchStore, useUserStore } from '../../store'
-import { t } from '../../locales'
 import { formatDate } from '../../utils'
 import type { PunchRecord } from '../../types'
 import { ElMessage } from 'element-plus'
 import { PUNCH_CONSTANTS } from '../../constants/punch'
+import { RECORD_CARD_CONSTANTS } from '../../constants/recordCard'
+import { TABLE_CONSTANTS } from '../../constants/table'
 
 // Store
 const punchStore = usePunchStore()
 const userStore = useUserStore()
 
 // Labels
-const dateLabel = t('record.date', 'Date')
-const nameLabel = t('record.name', 'Name')
-const timeLabel = t('record.time', 'Time')
-const locationLabel = t('record.location', '打卡地点')
-const noRecordsText = t('messages.noRecordsFound', '暂无打卡记录')
+const dateLabel = RECORD_CARD_CONSTANTS.COLUMN_HEADERS.DATE()
+const nameLabel = RECORD_CARD_CONSTANTS.COLUMN_HEADERS.NAME()
+const timeLabel = RECORD_CARD_CONSTANTS.COLUMN_HEADERS.TIME()
+const locationLabel = RECORD_CARD_CONSTANTS.COLUMN_HEADERS.LOCATION()
+const noRecordsText = RECORD_CARD_CONSTANTS.MESSAGES.NO_RECORDS()
 
 // Computed properties
 const tableData = computed<PunchRecord[]>(() => punchStore.pagination.records || [])
@@ -111,11 +112,11 @@ const formatTimeField = (dateValue: Date | string | undefined): string => {
 const formatUserId = (userId: number | undefined): string => {
   if (typeof userId !== 'number') return '-'
   // 如果需要显示用户名而非ID，可以在这里查询用户信息
-  return `${t('messages.userPrefix', '用户')}${userId}`
+  return `${RECORD_CARD_CONSTANTS.MESSAGES.USER_PREFIX()}${userId}`
 }
 
 const locationFormatter = (_row: PunchRecord, _column: unknown, cellValue: string): string => {
-  return cellValue || t('messages.unknownLocation', '未知地点')
+  return cellValue || RECORD_CARD_CONSTANTS.MESSAGES.UNKNOWN_LOCATION()
 }
 
 // 分页大小改变事件
@@ -180,11 +181,11 @@ onErrorCaptured((err) => {
 .record-card {
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  min-height: var(--size-record-card-min-height, 400px);
 }
 
 .pagination {
-  margin-top: 20px;
+  margin-top: var(--spacing-element-margin, 20px);
   justify-content: center;
 }
 </style>

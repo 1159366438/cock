@@ -44,3 +44,9 @@
   font-size: var(--font-size-small);
   color: var(--color-text-light-gray); /* 加浅灰色，和标题区分 */
 }
+
+.logout-btn {
+  margin-left: 10px;
+  font-size: var(--font-size-small);
+  color: var(--el-color-danger) !important;
+}

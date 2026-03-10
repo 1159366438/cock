@@ -6,21 +6,25 @@ import { punchApi } from '../../api/punchApi'
 import type { PunchRecord } from '../../types'
 import { PUNCH_CONSTANTS } from '../../constants/punch'
 import { BUSINESS_STATUS } from '../../constants/api'
-import { t } from '../../locales'
+import { TABLE_CONSTANTS } from '../../constants/table'
+import { BOOLEAN_CONSTANTS } from '../../constants/booleans'
+import { PUNCH_STORE_CONSTANTS } from '../../constants/punchStore'
+import { STORE_NAMES } from '../../constants/storeNames'
 
-export const usePunchStore = defineStore('punch', {
+
+export const usePunchStore = defineStore(STORE_NAMES.PUNCH, {
   state: () => ({
-    isPunched: false,
-    punchedTime: '',
+    isPunched: PUNCH_STORE_CONSTANTS.INITIAL_STATE.IS_PUNCHED,
+    punchedTime: PUNCH_STORE_CONSTANTS.INITIAL_STATE.PUNCHED_TIME,
     pagination: {
       records: [] as PunchRecord[],
-      total: 0,
-      page: 1,
-      size: 15,
-      pages: 0
+      total: PUNCH_STORE_CONSTANTS.PAGINATION.TOTAL,
+      page: PUNCH_STORE_CONSTANTS.PAGINATION.PAGE,
+      size: TABLE_CONSTANTS.PAGINATION.DEFAULT_SIZE,
+      pages: PUNCH_STORE_CONSTANTS.PAGINATION.PAGES
     },
-    loading: false,
-    error: ''
+    loading: PUNCH_STORE_CONSTANTS.INITIAL_STATE.LOADING,
+    error: PUNCH_STORE_CONSTANTS.INITIAL_STATE.ERROR
   }),
   
   getters: {
@@ -35,7 +39,7 @@ export const usePunchStore = defineStore('punch', {
   
   actions: {
     async punchIn(username: string, userId: string | number) {
-      this.loading = true
+      this.loading = BOOLEAN_CONSTANTS.TRUE
       this.error = ''
       try {
         // 准备打卡数据
@@ -47,30 +51,30 @@ export const usePunchStore = defineStore('punch', {
         console.log('打卡接口响应:', res)
         if (res.data.code === BUSINESS_STATUS.SUCCESS) {
           // 打卡成功后更新本地状态
-          this.isPunched = true
+          this.isPunched = BOOLEAN_CONSTANTS.TRUE
           const now = new Date()
           this.punchedTime = now.toLocaleTimeString('zh-CN', {
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit'
           })
-          return true
+          return BOOLEAN_CONSTANTS.TRUE
         } else {
             this.error = PUNCH_CONSTANTS.MESSAGES.FAILED()
-          return false
+          return BOOLEAN_CONSTANTS.FALSE
         }
       } catch (error) {
         this.error = PUNCH_CONSTANTS.MESSAGES.ERROR()
         // 开发调试时可以启用日志
         // console.error('打卡异常:', error)
-        return false
+        return BOOLEAN_CONSTANTS.FALSE
       } finally {
-        this.loading = false
+        this.loading = BOOLEAN_CONSTANTS.FALSE
       }
     },
     
-    async fetchPunchRecords(userId: string | number = 1, page: number = 1, size: number = 15) {
-      this.loading = true
+    async fetchPunchRecords(userId: string | number = PUNCH_STORE_CONSTANTS.DEFAULT_PARAMS.USER_ID, page: number = PUNCH_STORE_CONSTANTS.DEFAULT_PARAMS.PAGE, size: number = TABLE_CONSTANTS.PAGINATION.DEFAULT_SIZE) {
+      this.loading = BOOLEAN_CONSTANTS.TRUE
       this.error = ''
       try {
         const res = await punchApi.getPunchRecords({ userId, page, size })
@@ -79,22 +83,22 @@ export const usePunchStore = defineStore('punch', {
           // 更新分页数据
           this.pagination = {
             records: res.data.records || [],
-            total: res.data.total || 0,
-            page: res.data.page || 1,
-            size: res.data.size || 15,
-            pages: res.data.pages || 0
+            total: res.data.total || PUNCH_STORE_CONSTANTS.FALLBACK_VALUES.TOTAL,
+            page: res.data.page || PUNCH_STORE_CONSTANTS.FALLBACK_VALUES.PAGE,
+            size: res.data.size || TABLE_CONSTANTS.PAGINATION.DEFAULT_SIZE,
+            pages: res.data.pages || PUNCH_STORE_CONSTANTS.FALLBACK_VALUES.PAGES
           };
-          return true; // 成功返回 true
+          return BOOLEAN_CONSTANTS.TRUE; // 成功返回 true
         } else {
           this.error = PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_FAILED()
-          return false; // 失败返回 false
+          return BOOLEAN_CONSTANTS.FALSE; // 失败返回 false
         }
       } catch (error) {
         this.error = PUNCH_CONSTANTS.MESSAGES.FETCH_RECORDS_ERROR()
         console.error('获取打卡记录失败:', error)
-        return false; // 异常返回 false
+        return BOOLEAN_CONSTANTS.FALSE; // 异常返回 false
       } finally {
-        this.loading = false
+        this.loading = BOOLEAN_CONSTANTS.FALSE
       }
     }
   }

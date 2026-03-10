@@ -22,13 +22,15 @@ export const debounce = <T extends (...args: any[]) => any>(func: T, delay: numb
  * @param limit 时间限制（毫秒）
  * @returns 节流处理后的函数
  */
+import { BOOLEAN_CONSTANTS } from '../constants/booleans';
+
 export const throttle = <T extends (...args: any[]) => any>(func: T, limit: number) => {
   let inThrottle: boolean;
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
       func(...args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+      inThrottle = BOOLEAN_CONSTANTS.TRUE;
+      setTimeout(() => inThrottle = BOOLEAN_CONSTANTS.FALSE, limit);
     }
   };
 };

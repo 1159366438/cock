@@ -11,6 +11,9 @@
       <div class="user-box">
         <el-avatar :src="userInfo.avatar" class="avatar"></el-avatar>
         <span class="user-name">{{ userInfo.name }}</span>
+        <el-button type="text" class="logout-btn" @click="emit(EVENT_CONSTANTS.USER.LOGOUT)">
+          {{ logoutText }}
+        </el-button>
       </div>
     </div>
   </div>
@@ -22,6 +25,8 @@ import { useUserStore } from '../../store'
 import { formatDate } from '../../utils'
 import { ElMessage } from 'element-plus'
 import { APP_CONFIG } from '../../config/appConfig'
+import { USER_INFO_CONSTANTS } from '../../constants/userInfo'
+import { EVENT_CONSTANTS } from '../../constants/events'
 
 
 // 接收父组件传递的菜单文本
@@ -31,6 +36,12 @@ const props = defineProps({
     required: true,
   }
 });
+
+// 定义事件
+const emit = defineEmits([EVENT_CONSTANTS.USER.LOGOUT])
+
+// 计算属性
+const logoutText = computed(() => USER_INFO_CONSTANTS.BUTTONS.LOGOUT())
 
 
 

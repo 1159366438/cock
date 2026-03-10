@@ -79,7 +79,30 @@ export const zhCN = {
   // 按钮文本
   buttons: {
     punchNow: '立即打卡',
-    alreadyPunched: '已打卡'
+    alreadyPunched: '已打卡',
+    logout: '退出'
+  },
+
+  // 登录页面
+  login: {
+    title: '用户登录',
+    usernameLabel: '用户名',
+    passwordLabel: '密码',
+    usernamePlaceholder: '请输入用户名',
+    passwordPlaceholder: '请输入密码',
+    rememberMe: '记住密码',
+    button: '登录',
+    forgotPassword: '忘记密码',
+    register: '注册账户',
+    usernameRequired: '请输入用户名',
+    usernameLength: '用户名长度至少3位',
+    passwordRequired: '请输入密码',
+    passwordLength: '密码长度至少6位',
+    success: '登录成功',
+    failed: '登录失败',
+    validationFailed: '请检查输入信息',
+    forgotPasswordTip: '请联系管理员重置密码',
+    registerTip: '请联系管理员开通账户'
   }
 }
 
@@ -159,7 +182,30 @@ export const enUS = {
   // Button texts
   buttons: {
     punchNow: 'Punch Now',
-    alreadyPunched: 'Already Punched'
+    alreadyPunched: 'Already Punched',
+    logout: 'Logout'
+  },
+
+  // Login page
+  login: {
+    title: 'User Login',
+    usernameLabel: 'Username',
+    passwordLabel: 'Password',
+    usernamePlaceholder: 'Please enter username',
+    passwordPlaceholder: 'Please enter password',
+    rememberMe: 'Remember Password',
+    button: 'Login',
+    forgotPassword: 'Forgot Password',
+    register: 'Register Account',
+    usernameRequired: 'Please enter username',
+    usernameLength: 'Username must be at least 3 characters',
+    passwordRequired: 'Please enter password',
+    passwordLength: 'Password must be at least 6 characters',
+    success: 'Login successful',
+    failed: 'Login failed',
+    validationFailed: 'Please check input information',
+    forgotPasswordTip: 'Please contact administrator to reset password',
+    registerTip: 'Please contact administrator to activate account'
   }
 }
 

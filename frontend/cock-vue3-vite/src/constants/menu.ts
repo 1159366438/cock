@@ -3,10 +3,10 @@
  * 统一管理系统所有菜单的显示文本、类型约束及工具方法
  * 键说明：与el-menu组件的index属性一一对应
  */
-import { t } from '../locales'
+import { MENU_CONSTANTS } from './menuConstants'
 
 // 类型约束：菜单Key类型
-export type MenuKey = 'system' | 'systemName' | 'today' | 'record' | '2' | '3' | '4';
+export type MenuKey = 'system' | 'systemName' | 'today' | 'record' | '2' | '3' | '4' | 'navigatorTwo' | 'navigatorThree' | 'navigatorFour';
 
 // 类型约束：菜单文本类型
 export type MenuText = string;
@@ -18,10 +18,8 @@ export type MenuText = string;
  * @returns 菜单显示文本
  */
 export function getMenuText(key: string | number, defaultText: MenuText = '员工内网'): MenuText {
-  // 尝试从国际化资源获取
-  const keyStr = String(key) as MenuKey;
-  const localizedKey = `menu.${keyStr}`;
-  return t(localizedKey, defaultText);
+  // 使用常量替代直接的国际化调用
+  return MENU_CONSTANTS.getMenuText(key, defaultText);
 }
 
 /**

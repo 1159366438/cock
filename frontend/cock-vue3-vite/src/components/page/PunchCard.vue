@@ -31,7 +31,9 @@ import { PUNCH_CONSTANTS } from '../../constants/punch'
 import { getMenuText } from '../../constants/menu'
 import { ElMessage } from 'element-plus'
 import { APP_CONFIG } from '../../config/appConfig'
-import { t } from '../../locales'
+import { PUNCH_CARD_CONSTANTS } from '../../constants/punchCard'
+import { MENU_KEYS } from '../../constants/menuKeys'
+import { I18N_FALLBACKS } from '../../constants/i18nFallbacks'
 
 // 响应式数据
 const todayDate = ref('')
@@ -39,10 +41,10 @@ const punchStore = usePunchStore()
 const userStore = useUserStore()
 const isPunched = computed(() => punchStore.isPunched)
 const punchedTime = computed(() => punchStore.punchedTime)
-const todayText = getMenuText('today', '今日打卡')
-const punchStatusText = computed(() => isPunched.value ? t('punchStatus.punched', '今日已打卡') : t('punchStatus.unpunched', '今日未打卡'))
-const punchButtonText = t('punchNow', '立即打卡')
-const alreadyPunchedText = t('alreadyPunched', '已打卡')
+const todayText = getMenuText(MENU_KEYS.MAIN.TODAY, I18N_FALLBACKS.MENU.TODAY)
+const punchStatusText = computed(() => isPunched.value ? PUNCH_CARD_CONSTANTS.STATUS.PUNCHED() : PUNCH_CARD_CONSTANTS.STATUS.UNPUNCHED())
+const punchButtonText = PUNCH_CARD_CONSTANTS.TEXTS.PUNCH_NOW()
+const alreadyPunchedText = PUNCH_CARD_CONSTANTS.TEXTS.ALREADY_PUNCHED()
 
 // 格式化今日日期
 const formatTodayDate = () => {
@@ -56,7 +58,7 @@ const handlePunchIn = async () => {
     await userStore.fetchUserInfo()
   }
   
-  const username = userStore.userInfo.name || t('messages.unknownUser', '未知用户')
+  const username = userStore.userInfo.name || PUNCH_CARD_CONSTANTS.MESSAGES.UNKNOWN_USER()
   const userId = userStore.userInfo.userId || 1
   try {
     // 调用store中的打卡方法（已封装API调用）
