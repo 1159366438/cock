@@ -1,7 +1,9 @@
 package com.example.service;
 
+import com.example.common.ResponseResult;
 import com.example.entity.PunchRecord;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 打卡记录服务接口
@@ -96,4 +98,22 @@ public interface PunchRecordService {
      * @return 打卡记录列表
      */
     List<PunchRecord> queryByUserIdAndPage(Integer userId, int page, int size);
+
+    /**
+     * 执行用户打卡操作
+     *
+     * @param userId 用户ID
+     * @return 打卡结果响应
+     */
+    ResponseResult<String> performPunchIn(Integer userId);
+
+    /**
+     * 获取用户打卡记录（分页）
+     *
+     * @param userId 用户ID
+     * @param page 页码
+     * @param size 每页数量
+     * @return 打卡记录分页结果
+     */
+    ResponseResult<Map<String, Object>> getPunchRecords(Integer userId, int page, int size);
 }

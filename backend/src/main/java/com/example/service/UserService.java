@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.common.ResponseResult;
 import com.example.entity.User;
 import java.util.List;
 
@@ -24,18 +25,6 @@ public interface UserService {
      * @return 实例对象
      */
     User queryByUsername(String username);
-
-    /**
-     * 用户登录验证
-     *
-     * @param username 用户名
-     * @param rawPassword 明文密码
-     * @return 用户对象，如果验证失败则返回null
-     */
-    User login(String username, String rawPassword);
-    
-    // 临时保留简单验证方法
-    // User loginSimple(String username, String password);
 
     /**
      * 查询所有用户数据
@@ -67,4 +56,21 @@ public interface UserService {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    /**
+     * 用户登录验证
+     *
+     * @param username 用户名
+     * @param rawPassword 明文密码
+     * @return 用户对象，如果验证失败则返回null
+     */
+    User login(String username, String rawPassword);
+    
+    /**
+     * 获取用户信息（带错误处理）
+     *
+     * @param userId 用户ID
+     * @return 用户信息响应
+     */
+    ResponseResult<User> getUserInfoWithHandling(Integer userId);
 }

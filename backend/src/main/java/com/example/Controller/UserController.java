@@ -38,24 +38,8 @@ public class UserController {
     public ResponseResult<User> getUserInfo(@RequestParam(required = false) Integer userId) {
         System.out.println("请求成功");
         
-        try {
-            // 如果没有提供userId参数，则默认返回用户ID为1的信息（仅为演示）
-            // 在实际应用中，这里应该从认证信息中获取当前登录用户的ID
-            Integer targetUserId = (userId != null) ? userId : 1;
-            
-            // 通过服务层查询用户信息
-            User user = userService.queryById(targetUserId);
-            
-            if (user != null) {
-                return ResponseResult.success(user);
-            } else {
-                return ResponseResult.error(404, "用户不存在");
-            }
-        } catch (Exception e) {
-            System.err.println("获取用户信息失败: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseResult.error(500, "获取用户信息失败");
-        }
+        // 委托给服务层处理业务逻辑
+        return userService.getUserInfoWithHandling(userId);
     }
     
     /**

@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.common.ResponseResult;
 import com.example.dao.UserDao;
 import com.example.entity.User;
 import com.example.service.UserService;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String rawPassword) {
         // 根据用户名查询用户
         User user = userDao.queryByUsername(username);
-        
+
         if (user != null && passwordEncoder.matches(rawPassword, user.getPassword())) {
             // 密码匹配，返回用户信息（注意：不要返回密码）
             User loginUser = new User();
@@ -65,9 +66,32 @@ public class UserServiceImpl implements UserService {
             loginUser.setCreateTime(user.getCreateTime());
             return loginUser;
         }
-        
+
         return null; // 登录失败
     }
+
+    @Override
+    public ResponseResult<User> getUserInfoWithHandling(Integer userId) {
+        try {
+            // 如果没有提供userId参数，则默认返回用户ID为1的信息（仅为演示）
+            // 在实际应用中，这里应该从认证信息中获取当前登录用户的ID
+            Integer targetUserId = (userId != null) ? userId : 1;
+            
+            // 通过服务层查询用户信息
+            User user = queryById(targetUserId);
+            
+            if (user != null) {
+                return ResponseResult.success(user);
+            } else {
+                return ResponseResult.error(404, "用户不存在");
+            }
+        } catch (Exception e) {
+            System.err.println("获取用户信息失败: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseResult.error(500, "获取用户信息失败");
+        }
+    }
+}
     
     /*
     @Override
@@ -87,6 +111,5 @@ public class UserServiceImpl implements UserService {
         }
         
         return null; // 登录失败
-    }
-    */
-}
+        }
+     */

@@ -11,7 +11,7 @@
       <div class="user-box">
         <el-avatar :src="userInfo.avatar" class="avatar"></el-avatar>
         <span class="user-name">{{ userInfo.name }}</span>
-        <el-button type="text" class="logout-btn" @click="emit(EVENT_CONSTANTS.USER.LOGOUT)">
+        <el-button link class="logout-btn" @click="emit(EVENT_CONSTANTS.USER.LOGOUT)">
           {{ logoutText }}
         </el-button>
       </div>

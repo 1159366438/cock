@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.common.ResponseResult;
 import com.example.dto.PunchRequest;
-import com.example.entity.PunchRecord;
 import com.example.entity.User;
 import com.example.service.PunchRecordService;
 import com.example.service.UserService;
@@ -10,13 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 @RestController // 标识为REST接口，返回JSON数据
 @RequestMapping("/api/punch") // 匹配前端url的前缀 /api/input
@@ -49,27 +42,8 @@ public class PunchController {
 
         System.out.println("获取打卡记录请求成功，用户ID: " + userId + ", 页码: " + page + ", 每页数量: " + size);
         
-        try {
-            // 计算总数
-            int total = punchRecordService.countByUserId(userId);
-            
-            // 获取分页数据
-            List<PunchRecord> records = punchRecordService.queryByUserIdAndPage(userId, page, size);
-            
-            // 构造响应数据
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("records", records);
-            responseData.put("total", total);
-            responseData.put("page", page);
-            responseData.put("size", size);
-            responseData.put("pages", (int) Math.ceil((double) total / size));
-            
-            return ResponseResult.success(responseData);
-        } catch (Exception e) {
-            System.err.println("获取打卡记录失败: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseResult.error(500, "获取打卡记录失败");
-        }
+        // 委托给服务层处理业务逻辑
+        return punchRecordService.getPunchRecords(userId, page, size);
     }
 
     /**
@@ -99,34 +73,8 @@ public class PunchController {
                 return ResponseResult.error(404, "用户不存在");
             }
 
-            // 3. 设置为北京时间
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-
-            // 4. 获取当前时间的Date对象
-            Date now = new Date();
-
-            // 5. 格式化显示
-            String formattedDate = sdf.format(now);
-            System.out.println("当前时间（北京时间）: " + formattedDate);
-            System.out.println("Date对象: " + now);
-
-            // 6. 创建打卡记录
-            PunchRecord punchRecord = new PunchRecord();
-            punchRecord.setUserId(userId);
-            punchRecord.setCheckInTime(now);
-            punchRecord.setCheckInType(1); // 1-上班打卡
-            punchRecord.setCheckInStatus(1); // 1-正常
-            punchRecord.setCheckInLocation("公司"); // 假设打卡地点为公司
-
-            // 7. 保存打卡记录
-            int result = punchRecordService.punchIn(punchRecord);
-
-            if (result > 0) {
-                return ResponseResult.success("打卡成功");
-            } else {
-                return ResponseResult.error(500, "打卡失败");
-            }
+            // 3. 委托给服务层处理打卡业务
+            return punchRecordService.performPunchIn(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.error(500, "打卡失败");
