@@ -4,6 +4,8 @@ import com.example.common.ResponseResult;
 import com.example.dao.PunchRecordDao;
 import com.example.entity.PunchRecord;
 import com.example.service.PunchRecordService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -16,6 +18,8 @@ import java.util.Map;
  */
 @Service
 public class PunchRecordServiceImpl implements PunchRecordService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PunchRecordServiceImpl.class);
 
     @Autowired
     private PunchRecordDao punchRecordDao;
@@ -87,8 +91,11 @@ public class PunchRecordServiceImpl implements PunchRecordService {
 
     @Override
      public ResponseResult<String> performPunchIn(Integer userId) {
+         logger.info("执行打卡操作，用户ID: {}", userId);
+         
          // 验证用户ID
          if (userId == null) {
+             logger.warn("打卡失败：用户ID不能为空");
              return ResponseResult.error(400, "用户ID不能为空");
          }
 
@@ -111,8 +118,10 @@ public class PunchRecordServiceImpl implements PunchRecordService {
          int result = punchIn(punchRecord);
 
          if (result > 0) {
+             logger.info("打卡成功，用户ID: {}", userId);
              return ResponseResult.success("打卡成功");
          } else {
+             logger.error("打卡失败，用户ID: {}", userId);
              return ResponseResult.error(500, "打卡失败");
          }
      }
@@ -120,6 +129,8 @@ public class PunchRecordServiceImpl implements PunchRecordService {
      @Override
      public ResponseResult<Map<String, Object>> getPunchRecords(Integer userId, int page, int size) {
          try {
+             logger.info("获取打卡记录请求，用户ID: {}, 页码: {}, 每页大小: {}", userId, page, size);
+             
              // 计算总数
              int total = countByUserId(userId);
              
@@ -134,10 +145,10 @@ public class PunchRecordServiceImpl implements PunchRecordService {
              responseData.put("size", size);
              responseData.put("pages", (int) Math.ceil((double) total / size));
              
+             logger.info("获取打卡记录成功，用户ID: {}，总数: {}", userId, total);
              return ResponseResult.success(responseData);
          } catch (Exception e) {
-             System.err.println("获取打卡记录失败: " + e.getMessage());
-             e.printStackTrace();
+             logger.error("获取打卡记录失败，用户ID: {}", userId, e);
              return ResponseResult.error(500, "获取打卡记录失败");
          }
      }

@@ -5,6 +5,8 @@ import com.example.dto.PunchRequest;
 import com.example.entity.User;
 import com.example.service.PunchRecordService;
 import com.example.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import java.util.Map;
 @CrossOrigin // 解决前后端分离的跨域问题（必加，否则前端请求会被拦截）
 @Validated // 开启参数校验
 public class PunchController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PunchController.class);
 
     @Autowired
     private PunchRecordService punchRecordService;
@@ -40,7 +44,7 @@ public class PunchController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int size) {
 
-        System.out.println("获取打卡记录请求成功，用户ID: " + userId + ", 页码: " + page + ", 每页数量: " + size);
+        logger.info("获取打卡记录请求成功，用户ID: {}, 页码: {}, 每页数量: {}", userId, page, size);
         
         // 委托给服务层处理业务逻辑
         return punchRecordService.getPunchRecords(userId, page, size);
@@ -58,7 +62,7 @@ public class PunchController {
      */
     @PostMapping("/in")
     public ResponseResult<String> punchIn(@RequestBody PunchRequest punchRequest) {
-        System.out.println("打卡请求：" + punchRequest);
+        logger.info("打卡请求: userId={}", punchRequest.getUserId());
 
         try {
             // 1. 获取前台传递的用户ID
@@ -76,7 +80,7 @@ public class PunchController {
             // 3. 委托给服务层处理打卡业务
             return punchRecordService.performPunchIn(userId);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("打卡失败", e);
             return ResponseResult.error(500, "打卡失败");
         }
     }

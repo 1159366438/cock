@@ -4,6 +4,8 @@ import com.example.common.ResponseResult;
 import com.example.dao.UserDao;
 import com.example.entity.User;
 import com.example.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserDao userDao;
@@ -77,6 +81,8 @@ public class UserServiceImpl implements UserService {
             // 在实际应用中，这里应该从认证信息中获取当前登录用户的ID
             Integer targetUserId = (userId != null) ? userId : 1;
             
+            logger.info("获取用户信息请求，目标用户ID: {}", targetUserId);
+            
             // 通过服务层查询用户信息
             User user = queryById(targetUserId);
             
@@ -91,11 +97,11 @@ public class UserServiceImpl implements UserService {
                 
                 return ResponseResult.success(userWithoutPassword);
             } else {
+                logger.warn("用户不存在，用户ID: {}", targetUserId);
                 return ResponseResult.error(404, "用户不存在");
             }
         } catch (Exception e) {
-            System.err.println("获取用户信息失败: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("获取用户信息失败", e);
             return ResponseResult.error(500, "获取用户信息失败");
         }
     }

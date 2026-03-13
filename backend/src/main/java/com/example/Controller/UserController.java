@@ -4,6 +4,8 @@ import com.example.common.ResponseResult;
 import com.example.dto.LoginRequest;
 import com.example.entity.User;
 import com.example.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +25,8 @@ import java.util.Map;
 @Validated // 开启参数校验
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
     /**
@@ -36,7 +40,7 @@ public class UserController {
      */
     @GetMapping("/info")
     public ResponseResult<User> getUserInfo(@RequestParam(required = false) Integer userId) {
-        System.out.println("请求成功");
+        logger.info("获取用户信息请求成功，用户ID: {}", userId);
         
         // 委托给服务层处理业务逻辑
         return userService.getUserInfoWithHandling(userId);
@@ -54,7 +58,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseResult<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("登录请求：" + loginRequest);
+        logger.info("登录请求: username={}", loginRequest.getUsername());
         
         try {
             // 验证输入参数
@@ -80,8 +84,7 @@ public class UserController {
             
             return ResponseResult.success(responseData);
         } catch (Exception e) {
-            System.err.println("登录失败: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("登录失败", e);
             return ResponseResult.error(500, "登录失败");
         }
     }
@@ -111,11 +114,11 @@ public class UserController {
        */
       @PostMapping("/logout")
       public ResponseResult<String> logout() {
-          System.out.println("登出请求");
+          logger.info("登出请求");
           
           // 暂时只返回成功消息，token功能已注释掉
           
           return ResponseResult.success("登出成功");
       }
   
-  }
+}
