@@ -117,6 +117,6 @@ INSERT INTO `user` (`username`, `age`) VALUES ('user2', 28);
 
 ## 8. 版本信息
 
-- **文档版本**: v1.0.0-beta
+- **文档版本**: v1.0.1-beta
 - **最后更新**: 2026-03-12
 - **作者**: Attendance System 开发团队
