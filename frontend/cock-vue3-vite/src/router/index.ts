@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import PunchPage from '../pages/home/PunchPage.vue'
 import RecordPage from '../pages/home/RecordPage.vue'
 import LoginPage from '../views/Login.vue'
+import RegisterPage from '../views/Register.vue'
 import { PAGE_NAMES } from '../constants/punchConstants'
 import { USER_CONSTANTS } from '../constants/userConstants'
 import { LOGIN_CONSTANTS } from '../constants/login'
@@ -15,6 +16,12 @@ const routes = [
     name: ROUTE_CONSTANTS.NAMES.AUTH.LOGIN,
     component: LoginPage,
     meta: { title: LOGIN_CONSTANTS.TEXTS.TITLE, requiresAuth: BOOLEAN_CONSTANTS.FALSE }
+  },
+  {
+    path: ROUTE_CONSTANTS.PATHS.AUTH.REGISTER,
+    name: ROUTE_CONSTANTS.NAMES.AUTH.REGISTER,
+    component: RegisterPage,
+    meta: { title: LOGIN_CONSTANTS.TEXTS.REGISTER_TITLE, requiresAuth: BOOLEAN_CONSTANTS.FALSE }
   },
   {
     path: ROUTE_CONSTANTS.PATHS.PAGES.HOME,

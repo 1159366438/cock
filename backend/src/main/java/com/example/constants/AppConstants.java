@@ -53,6 +53,8 @@ public class AppConstants {
     public static class User {
         /** 默认用户ID（仅用于演示）*/
         public static final int DEFAULT_USER_ID = 1;
+        
+
     }
     
     /**
@@ -89,14 +91,23 @@ public class AppConstants {
         public static final int PASSWORD_EMPTY_CODE = ErrorCodeConstants.User.PASSWORD_EMPTY_CODE;
         public static final String PASSWORD_EMPTY_MSG = ErrorCodeConstants.User.PASSWORD_EMPTY_MSG;
         
+        public static final int PASSWORD_MISMATCH_CODE = ErrorCodeConstants.User.PASSWORD_MISMATCH_CODE;
+        public static final String PASSWORD_MISMATCH_MSG = ErrorCodeConstants.User.PASSWORD_MISMATCH_MSG;
+        
         public static final int LOGIN_FAILED_CODE = ErrorCodeConstants.User.LOGIN_FAILED_CODE;
         public static final String LOGIN_FAILED_MSG = ErrorCodeConstants.User.LOGIN_FAILED_MSG;
         
         public static final int USER_NOT_EXIST_CODE = ErrorCodeConstants.User.USER_NOT_EXIST_CODE;
         public static final String USER_NOT_EXIST_MSG = ErrorCodeConstants.User.USER_NOT_EXIST_MSG;
         
+        public static final int USER_EXISTS_CODE = ErrorCodeConstants.User.USER_EXISTS_CODE;
+        public static final String USER_EXISTS_MSG = ErrorCodeConstants.User.USER_EXISTS_MSG;
+        
         public static final int GET_USER_INFO_FAILED_CODE = ErrorCodeConstants.User.GET_USER_INFO_FAILED_CODE;
         public static final String GET_USER_INFO_FAILED_MSG = ErrorCodeConstants.User.GET_USER_INFO_FAILED_MSG;
+        
+        public static final int REGISTER_FAILED_CODE = ErrorCodeConstants.User.REGISTER_FAILED_CODE;
+        public static final String REGISTER_FAILED_MSG = ErrorCodeConstants.User.REGISTER_FAILED_MSG;
         
         // 打卡相关错误码
         public static final int USER_ID_EMPTY_CODE = ErrorCodeConstants.Punch.USER_ID_EMPTY_CODE;
@@ -111,6 +122,9 @@ public class AppConstants {
         // 参数校验相关错误码
         public static final int VALIDATION_FAILED_CODE = ErrorCodeConstants.Validation.VALIDATION_FAILED_CODE;
         public static final String VALIDATION_FAILED_MSG = ErrorCodeConstants.Validation.VALIDATION_FAILED_MSG;
+        
+        public static final int VALIDATION_ERROR_CODE = ErrorCodeConstants.Validation.VALIDATION_ERROR_CODE;
+        public static final String VALIDATION_ERROR_MSG = ErrorCodeConstants.Validation.VALIDATION_ERROR_MSG;
     }
     
     /**

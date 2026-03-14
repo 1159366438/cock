@@ -63,6 +63,7 @@ import { MESSAGE_CONSTANTS } from '../constants/messages'
 import { LOGIN_CONSTANTS } from '../constants/login'
 import { ROUTE_CONSTANTS } from '../constants/routeConstants'
 import { USER_CONSTANTS } from '../constants/userConstants'
+import { STORAGE_VALUES } from '../constants/storageValues'
 import { BOOLEAN_CONSTANTS } from '../constants/booleans'
 import { FORM_VALIDATION_CONSTANTS } from '../constants/formValidation'
 
@@ -139,10 +140,10 @@ const handleLogin = async () => {
       ElMessage.success(MESSAGE_CONSTANTS.USER_INFO.LOGIN_SUCCESS())
       
       // 设置认证状态
-      localStorage.setItem(USER_CONSTANTS.STORAGE_KEYS.IS_LOGGED_IN, 'true')
+      localStorage.setItem(USER_CONSTANTS.STORAGE_KEYS.IS_LOGGED_IN, STORAGE_VALUES.AUTH_STATUS.LOGGED_IN)
       /* // 暂时注释掉token相关功能
       // 这里可以设置token或其他认证信息
-      localStorage.setItem(USER_CONSTANTS.STORAGE_KEYS.AUTH_TOKEN, 'temp_token_for_demo') // 仅为演示用
+      localStorage.setItem(USER_CONSTANTS.STORAGE_KEYS.AUTH_TOKEN, 'temp_token_for_demo') // 仅为演示用 - 实际项目中应使用真实token
       */
       
       // 根据是否记住密码决定跳转行为
@@ -172,7 +173,7 @@ const handleForgotPassword = () => {
 
 // 注册处理
 const handleRegister = () => {
-  ElMessage.info(LOGIN_CONSTANTS.HELP_MESSAGES.REGISTER_TIP())
+  router.push({ path: ROUTE_CONSTANTS.PATHS.AUTH.REGISTER })
 }
 </script>
 

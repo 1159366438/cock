@@ -1,37 +1,49 @@
 /**
  * 用户相关常量
- * 管理用户功能中使用的各种常量值，包括基本用户信息、验证规则、存储键名和界面文本
+ * 管理用户功能中使用的各种常量值
  */
 
-import { t } from '../locales'
-
 export const USER_CONSTANTS = {
-  // 默认用户值
-  DEFAULT_VALUES: {
-    USER_ID: 1,  // 默认用户ID
-    USERNAME: 'guest',  // 默认用户名
-    AVATAR: '',  // 默认头像
+  // 年龄限制
+  AGE_LIMITS: {
+    MIN: 1,
+    MAX: 120,
   },
 
-  // 用户验证规则
-  VALIDATION: {
-    MIN_USERNAME_LENGTH: 3,  // 最小用户名长度
-    MAX_USERNAME_LENGTH: 50,  // 最大用户名长度
-    MIN_PASSWORD_LENGTH: 6,  // 最小密码长度
-    MAX_PASSWORD_LENGTH: 128,  // 最大密码长度
-  },
-
-  // 本地存储键名
+  // 存储键名
   STORAGE_KEYS: {
     IS_LOGGED_IN: 'isLoggedIn',
-    AUTH_TOKEN: 'authToken',
+    USER_INFO: 'userInfo',
+    TOKEN: 'token',
     REMEMBERED_USERNAME: 'rememberedUsername',
-  }
-}
+    AUTH_TOKEN: 'authToken',
+  },
 
-export const USER_INFO_CONSTANTS = {
-  // 按钮文本
-  BUTTONS: {
-    LOGOUT: () => t('buttons.logout', '退出')
-  }
-}
+
+
+  // 用户名限制
+  USERNAME: {
+    MIN_LENGTH: 3,
+    MAX_LENGTH: 50,
+  },
+
+  // 密码限制
+  PASSWORD: {
+    MIN_LENGTH: 6,
+    MAX_LENGTH: 128,
+  },
+
+  // 头像相关
+  AVATAR: {
+    DEFAULT_SIZE: 80,
+    OPTION_SIZE: 50,
+  },
+
+  // 表单验证类型
+  FORM_TYPES: {
+    NUMBER: 'number',
+    STRING: 'string',
+    ARRAY: 'array',
+    OBJECT: 'object',
+  },
+};

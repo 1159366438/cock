@@ -17,6 +17,17 @@ export const userApi = {
     })
   },
   
+  // 用户注册
+  register: (username: string, password: string, confirmPassword: string, age?: number, avatar?: string) => {
+    return service.post(ROUTE_CONSTANTS.PATHS.API.USER.REGISTER, {
+      username,
+      password,
+      confirmPassword,
+      age,
+      avatar
+    })
+  },
+  
   // 用户登出
   logout: () => {
     return service.post(ROUTE_CONSTANTS.PATHS.API.USER.LOGOUT)

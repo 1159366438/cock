@@ -21,6 +21,7 @@ export const STATUS_CODES = {
     AUTH_FAILED: 401,    // 认证失败
     PERMISSION_DENIED: 403, // 权限不足
     RESOURCE_NOT_FOUND: 404, // 资源未找到
+    VALIDATION_ERROR: 422,   // 验证错误
     SERVER_ERROR: 500,   // 服务器错误
   }
 }

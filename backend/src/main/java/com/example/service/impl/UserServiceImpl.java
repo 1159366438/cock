@@ -3,6 +3,7 @@ package com.example.service.impl;
 import com.example.common.ResponseResult;
 import com.example.constants.AppConstants;
 import com.example.dao.UserDao;
+import com.example.dto.RegisterRequest;
 import com.example.entity.User;
 import com.example.service.UserService;
 import org.slf4j.Logger;
@@ -95,7 +96,8 @@ public class UserServiceImpl implements UserService {
                 userWithoutPassword.setAge(user.getAge());
                 userWithoutPassword.setAvatar(user.getAvatar());
                 userWithoutPassword.setCreateTime(user.getCreateTime());
-                
+                logger.info("成功获取用户信息，用户ID: {}, 用户名: {}, 年龄: {}, 头像: {}",
+                        userWithoutPassword.getId(), userWithoutPassword.getUsername(), userWithoutPassword.getAge(), userWithoutPassword.getAvatar());
                 return ResponseResult.success(userWithoutPassword);
             } else {
                 logger.warn("用户不存在，用户ID: {}", targetUserId);
@@ -106,7 +108,52 @@ public class UserServiceImpl implements UserService {
             return ResponseResult.error(AppConstants.Error.GET_USER_INFO_FAILED_CODE, AppConstants.Error.GET_USER_INFO_FAILED_MSG);
         }
     }
-}
+
+    @Override
+    public ResponseResult<User> register(RegisterRequest registerRequest) {
+        // 检查用户名是否已存在
+        User existingUser = userDao.queryByUsername(registerRequest.getUsername());
+        if (existingUser != null) {
+            logger.warn("用户名已存在: {}", registerRequest.getUsername());
+            return ResponseResult.error(AppConstants.Error.USER_EXISTS_CODE, AppConstants.Error.USER_EXISTS_MSG);
+        }
+        
+        // 创建新用户
+        User newUser = new User();
+        newUser.setUsername(registerRequest.getUsername());
+        // 加密密码
+        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
+        newUser.setPassword(encodedPassword);
+        newUser.setAge(registerRequest.getAge());
+        
+        // 处理头像 - 直接使用前端传递的头像路径或URL
+        if (registerRequest.getAvatar() != null && !registerRequest.getAvatar().isEmpty()) {
+            // 直接使用前端传递的头像路径或URL
+            newUser.setAvatar(registerRequest.getAvatar());
+        }
+        
+        // 设置创建时间
+        newUser.setCreateTime(new java.util.Date());
+        
+        // 插入数据库
+        int result = userDao.insert(newUser);
+        
+        if (result > 0) {
+            // 返回不包含密码的用户信息
+            User registeredUser = new User();
+            registeredUser.setId(newUser.getId());
+            registeredUser.setUsername(newUser.getUsername());
+            registeredUser.setAge(newUser.getAge());
+            registeredUser.setAvatar(newUser.getAvatar());
+            registeredUser.setCreateTime(newUser.getCreateTime());
+            
+            logger.info("用户注册成功，用户名: {}", registerRequest.getUsername());
+            return ResponseResult.success(registeredUser);
+        } else {
+            logger.error("用户注册失败，用户名: {}", registerRequest.getUsername());
+            return ResponseResult.error(AppConstants.Error.REGISTER_FAILED_CODE, AppConstants.Error.REGISTER_FAILED_MSG);
+        }
+    }
     
     /*
     @Override
@@ -128,3 +175,4 @@ public class UserServiceImpl implements UserService {
         return null; // 登录失败
         }
      */
+}

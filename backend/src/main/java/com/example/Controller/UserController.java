@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.common.ResponseResult;
 import com.example.constants.AppConstants;
 import com.example.dto.LoginRequest;
+import com.example.dto.RegisterRequest;
 import com.example.entity.User;
 import com.example.service.UserService;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
     /**
      * 获取打卡记录接口
      * <p>
@@ -62,13 +64,10 @@ public class UserController {
         logger.info("登录请求: username={}", loginRequest.getUsername());
         
         try {
-            // 验证输入参数
-            if (loginRequest.getUsername() == null || loginRequest.getUsername().trim().isEmpty()) {
-                return ResponseResult.error(AppConstants.Error.USERNAME_EMPTY_CODE, AppConstants.Error.USERNAME_EMPTY_MSG);
-            }
-            
-            if (loginRequest.getPassword() == null || loginRequest.getPassword().trim().isEmpty()) {
-                return ResponseResult.error(AppConstants.Error.PASSWORD_EMPTY_CODE, AppConstants.Error.PASSWORD_EMPTY_MSG);
+            // 验证登录输入参数
+            ResponseResult<Void> validationResponse = validateRequest(loginRequest, null);
+            if (validationResponse.getCode() != AppConstants.Error.SUCCESS_CODE) {
+                return ResponseResult.error(validationResponse.getCode(), validationResponse.getMsg());
             }
             
             // 调用登录业务逻辑
@@ -91,11 +90,52 @@ public class UserController {
     }
     
     /**
-      * 生成认证令牌
-      * 
-      * @param userId 用户ID
-      * @return 生成的令牌
-      */
+     * 统一验证方法，处理登录和注册请求参数
+     * 
+     * @param loginRequest 登录请求参数（登录时使用，注册时为null）
+     * @param registerRequest 注册请求参数（注册时使用，登录时为null）
+     * @return 验证结果
+     */
+    private ResponseResult<Void> validateRequest(LoginRequest loginRequest, RegisterRequest registerRequest) {
+        String username = null;
+        String password = null;
+        String confirmPassword = null;
+        
+        if (loginRequest != null) {
+            // 处理登录请求
+            username = loginRequest.getUsername();
+            password = loginRequest.getPassword();
+        } else if (registerRequest != null) {
+            // 处理注册请求
+            username = registerRequest.getUsername();
+            password = registerRequest.getPassword();
+            confirmPassword = registerRequest.getConfirmPassword();
+        }
+        
+        // 验证基本参数
+        ResponseResult<Void> basicValidation = validateBasicCredentials(
+            loginRequest != null ? (Object) loginRequest : (Object) registerRequest, 
+            username, 
+            password
+        );
+        if (basicValidation.getCode() != AppConstants.Error.SUCCESS_CODE) {
+            return basicValidation;
+        }
+        
+        // 如果是注册请求，则验证确认密码
+        if (registerRequest != null && confirmPassword != null && !password.equals(confirmPassword)) {
+            return ResponseResult.error(AppConstants.Error.PASSWORD_MISMATCH_CODE, AppConstants.Error.PASSWORD_MISMATCH_MSG);
+        }
+        
+        return ResponseResult.success(null);
+    }
+    
+    /**
+     * 生成认证令牌
+     * 
+     * @param userId 用户ID
+     * @return 生成的令牌
+     */
      /*
      private String generateToken(Integer userId) {
          // 在实际应用中，这里应该生成JWT令牌或其他类型的认证令牌
@@ -120,6 +160,64 @@ public class UserController {
           // 暂时只返回成功消息，token功能已注释掉
           
           return ResponseResult.success(AppConstants.Success.LOGOUT_SUCCESS_MSG);
+      }
+      
+      /**
+       * 用户注册接口
+       * <p>
+       * 该接口用于处理用户注册请求
+       * </p>
+       *
+       * @param registerRequest 注册请求参数，包含用户名、密码等信息
+       * @return 标准响应格式，包含注册成功的用户信息
+       * @since 1.1.0
+       */
+      @PostMapping("/register")
+     public ResponseResult<User> register(@RequestBody RegisterRequest registerRequest) {
+         logger.info("用户注册请求: username={}", registerRequest.getUsername());
+         
+         try {
+             // 验证注册输入参数
+             ResponseResult<Void> validationResponse = validateRequest(null, registerRequest);
+             if (validationResponse.getCode() != AppConstants.Error.SUCCESS_CODE) {
+                 return ResponseResult.error(validationResponse.getCode(), validationResponse.getMsg());
+             }
+             
+             // 调用注册业务逻辑
+             ResponseResult<User> registerResult = userService.register(registerRequest);
+             
+             // 直接返回服务层的结果
+             return registerResult;
+         } catch (Exception e) {
+             logger.error("用户注册失败", e);
+             return ResponseResult.error(AppConstants.Error.SERVER_ERROR_CODE, AppConstants.Error.SERVER_ERROR_MSG);
+         }
+     }
+      
+
+      
+      /**
+       * 验证基本凭据（用户名和密码）
+       * 
+       * @param requestObject 请求对象
+       * @param username 用户名
+       * @param password 密码
+       * @return 验证结果
+       */
+      private ResponseResult<Void> validateBasicCredentials(Object requestObject, String username, String password) {
+          if (requestObject == null) {
+              return ResponseResult.error(AppConstants.Error.USERNAME_EMPTY_CODE, AppConstants.Error.USERNAME_EMPTY_MSG);
+          }
+          
+          if (username == null || username.trim().isEmpty()) {
+              return ResponseResult.error(AppConstants.Error.USERNAME_EMPTY_CODE, AppConstants.Error.USERNAME_EMPTY_MSG);
+          }
+          
+          if (password == null || password.trim().isEmpty()) {
+              return ResponseResult.error(AppConstants.Error.PASSWORD_EMPTY_CODE, AppConstants.Error.PASSWORD_EMPTY_MSG);
+          }
+          
+          return ResponseResult.success(null);
       }
   
 }

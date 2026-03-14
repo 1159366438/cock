@@ -143,6 +143,62 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
       }
     },
     
+    async register(username: string, password: string, confirmPassword: string, age?: number, avatar?: string) {
+      this.loading = BOOLEAN_CONSTANTS.TRUE
+      this.error = ''
+      try {
+        // 调用真实的注册API
+        const res = await userApi.register(username, password, confirmPassword, age, avatar)
+        
+        // 检查响应状态
+        if (res.data && res.data.code !== STATUS_CODES.BUSINESS.SUCCESS) {
+          // 根据后端返回码进行精确错误处理
+          switch (res.data.code) {
+            case STATUS_CODES.BUSINESS.PARAM_ERROR:
+            case 400:
+              // 参数错误
+              throw new Error(MESSAGE_CONSTANTS.USER_INFO.PARAM_ERROR())
+              
+            case STATUS_CODES.BUSINESS.VALIDATION_ERROR:
+            case 422:
+              // 验证错误
+              throw new Error(MESSAGE_CONSTANTS.USER_INFO.VALIDATION_ERROR())
+              
+            case STATUS_CODES.BUSINESS.SERVER_ERROR:
+            case 500:
+              // 服务器错误
+              throw new Error(MESSAGE_CONSTANTS.COMMON.SERVER_ERROR())
+              
+            default:
+              // 其他业务错误
+              throw new Error(res.data.msg || res.data.message || MESSAGE_CONSTANTS.USER_INFO.REGISTER_FAILED())
+          }
+        }
+        
+        // 如果注册成功，可以自动登录用户
+        if (res.data && res.data.data) {
+          const userData = res.data.data
+          this.userInfo.name = userData.username
+          this.userInfo.userId = userData.id || USER_CONSTANTS.DEFAULT_VALUES.USER_ID
+          this.userInfo.avatar = userData.avatar || ''
+        }
+        
+        return {
+          success: BOOLEAN_CONSTANTS.TRUE,
+          message: MESSAGE_CONSTANTS.USER_INFO.REGISTER_SUCCESS(),
+          data: { username, userId: this.userInfo.userId }
+        }
+      } catch (error: any) {
+        return {
+          success: BOOLEAN_CONSTANTS.FALSE,
+          message: error.message || MESSAGE_CONSTANTS.USER_INFO.REGISTER_FAILED(),
+          error
+        }
+      } finally {
+        this.loading = BOOLEAN_CONSTANTS.FALSE
+      }
+    },
+    
     async logout() {
       try {
         // 调用真实的登出API

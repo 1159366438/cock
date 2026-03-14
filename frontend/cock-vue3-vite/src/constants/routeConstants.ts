@@ -10,6 +10,7 @@ export const ROUTE_CONSTANTS = {
     AUTH: {
       LOGIN: '/login',
       LOGOUT: '/logout',
+      REGISTER: '/register',
     },
     
     // 主要页面路由
@@ -27,6 +28,7 @@ export const ROUTE_CONSTANTS = {
         INFO: '/user/info',
         LOGIN: '/user/login',
         LOGOUT: '/user/logout',
+        REGISTER: '/user/register',
       },
       PUNCH: {
         RECORD: '/punch/record',
@@ -40,6 +42,7 @@ export const ROUTE_CONSTANTS = {
     // 认证相关页面
     AUTH: {
       LOGIN: 'LoginPage',
+      REGISTER: 'RegisterPage',
     },
     
     // 主要页面

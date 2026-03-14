@@ -45,6 +45,10 @@ public class ErrorCodeConstants {
         public static final int PASSWORD_EMPTY_CODE = 400;
         public static final String PASSWORD_EMPTY_MSG = "密码不能为空";
         
+        /** 密码不匹配 */
+        public static final int PASSWORD_MISMATCH_CODE = 400;
+        public static final String PASSWORD_MISMATCH_MSG = "两次输入的密码不一致";
+        
         /** 用户名或密码错误 */
         public static final int LOGIN_FAILED_CODE = 401;
         public static final String LOGIN_FAILED_MSG = "用户名或密码错误";
@@ -53,9 +57,17 @@ public class ErrorCodeConstants {
         public static final int USER_NOT_EXIST_CODE = 404;
         public static final String USER_NOT_EXIST_MSG = "用户不存在";
         
+        /** 用户已存在 */
+        public static final int USER_EXISTS_CODE = 409;
+        public static final String USER_EXISTS_MSG = "用户名已存在";
+        
         /** 获取用户信息失败 */
         public static final int GET_USER_INFO_FAILED_CODE = 500;
         public static final String GET_USER_INFO_FAILED_MSG = "获取用户信息失败";
+        
+        /** 注册失败 */
+        public static final int REGISTER_FAILED_CODE = 500;
+        public static final String REGISTER_FAILED_MSG = "注册失败";
     }
     
     /**
@@ -82,5 +94,9 @@ public class ErrorCodeConstants {
         /** 参数校验失败 */
         public static final int VALIDATION_FAILED_CODE = 400;
         public static final String VALIDATION_FAILED_MSG = "参数校验失败";
+        
+        /** 通用验证错误 */
+        public static final int VALIDATION_ERROR_CODE = 400;
+        public static final String VALIDATION_ERROR_MSG = "参数验证错误";
     }
 }

@@ -18,7 +18,10 @@ export const MESSAGE_CONSTANTS = {
     LOGOUT_FAILED: () => t('messages.logoutFailed', '退出登录失败'),
     INVALID_CREDENTIALS: () => t('messages.invalidCredentials', '用户名或密码错误'),
     PARAM_ERROR: () => t('messages.paramError', '登录参数错误'),
-    AUTH_FAILED: () => t('messages.authFailed', '认证失败，请重新登录')
+    AUTH_FAILED: () => t('messages.authFailed', '认证失败，请重新登录'),
+    REGISTER_SUCCESS: () => t('messages.registerSuccess', '注册成功'),
+    REGISTER_FAILED: () => t('messages.registerFailed', '注册失败'),
+    VALIDATION_ERROR: () => t('messages.validationError', '验证失败')
   },
 
   // 通用操作消息

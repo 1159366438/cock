@@ -1,12 +1,14 @@
 package com.example.common;
 
+import com.example.constants.AppConstants;
+
 /**
  * 统一响应结果类
  * 
  * @param <T> 响应数据类型
  */
 public class ResponseResult<T> {
-    private int code;    // 业务状态码，200成功，非200失败
+    private int code;    // 业务状态码，SUCCESS_CODE成功，非SUCCESS_CODE失败
     private String msg;  // 提示信息
     private T data;      // 真正的业务数据
 
@@ -25,17 +27,17 @@ public class ResponseResult<T> {
 
     // 成功响应
     public static <T> ResponseResult<T> success(T data) {
-        return new ResponseResult<>(200, "success", data);
+        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, "success", data);
     }
 
     // 成功响应（无数据）
     public static <T> ResponseResult<T> success() {
-        return new ResponseResult<>(200, "success", null);
+        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, "success", null);
     }
 
     // 成功响应（带自定义消息）
     public static <T> ResponseResult<T> success(String msg, T data) {
-        return new ResponseResult<>(200, msg, data);
+        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, msg, data);
     }
 
     // 失败响应
@@ -45,7 +47,7 @@ public class ResponseResult<T> {
 
     // 失败响应（默认错误消息）
     public static <T> ResponseResult<T> error(String msg) {
-        return new ResponseResult<>(500, msg, null);
+        return new ResponseResult<>(AppConstants.Error.SERVER_ERROR_CODE, msg, null);
     }
 
     // 失败响应（带数据）

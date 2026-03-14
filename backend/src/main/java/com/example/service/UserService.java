@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.common.ResponseResult;
+import com.example.dto.RegisterRequest;
 import com.example.entity.User;
 import java.util.List;
 
@@ -48,6 +49,14 @@ public interface UserService {
      * @return 影响行数
      */
     int update(User user);
+
+    /**
+     * 用户注册
+     *
+     * @param registerRequest 注册请求参数
+     * @return 注册结果
+     */
+    ResponseResult<User> register(RegisterRequest registerRequest);
 
     /**
      * 通过主键删除数据
