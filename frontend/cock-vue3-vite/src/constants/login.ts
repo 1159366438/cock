@@ -15,6 +15,10 @@ export const LOGIN_CONSTANTS = {
     CONFIRM_PASSWORD_LABEL: () => t('login.confirmPasswordLabel', '确认密码'),
     AGE_LABEL: () => t('login.ageLabel', '年龄'),
     AVATAR_LABEL: () => t('login.avatarLabel', '头像'),
+    GENDER_LABEL: () => t('login.genderLabel', '性别'),
+    MALE_LABEL: () => t('login.maleLabel', '男'),
+    FEMALE_LABEL: () => t('login.femaleLabel', '女'),
+    UNKNOWN_LABEL: () => t('login.unknownLabel', '未知'),
     USERNAME_PLACEHOLDER: () => t('login.usernamePlaceholder', '请输入用户名'),
     PASSWORD_PLACEHOLDER: () => t('login.passwordPlaceholder', '请输入密码'),
     CONFIRM_PASSWORD_PLACEHOLDER: () => t('login.confirmPasswordPlaceholder', '请再次输入密码'),
@@ -38,6 +42,8 @@ export const LOGIN_CONSTANTS = {
     CONFIRM_PASSWORD_REQUIRED: () => t('login.confirmPasswordRequired', '请确认密码'),
     PASSWORD_MISMATCH: () => t('login.passwordMismatch', '两次输入的密码不一致'),
     AGE_RANGE: () => t('login.ageRange', '年龄应在1-120之间'),
+    GENDER_REQUIRED: () => t('login.genderRequired', '请选择性别'),
+    GENDER_INVALID: () => t('login.genderInvalid', '选择的性别无效'),
     TERMS_NOT_ACCEPTED: () => t('login.termsNotAccepted', '请阅读并同意用户协议'),
     REGISTRATION_FAILED: () => t('login.registrationFailed', '注册失败'),
     VALIDATION_FAILED: () => t('login.validationFailed', '请检查输入信息'),
@@ -53,5 +59,6 @@ export const LOGIN_CONSTANTS = {
   FEATURE_FLAGS: {
     SHOW_AGE_FIELD: () => true,
     SHOW_AVATAR_FIELD: () => true,
+    SHOW_GENDER_FIELD: () => true,
   }
 }

@@ -132,6 +132,14 @@ public class UserServiceImpl implements UserService {
             newUser.setAvatar(registerRequest.getAvatar());
         }
         
+        // 处理性别
+        if (registerRequest.getGender() != null) {
+            newUser.setGender(registerRequest.getGender());
+        } else {
+            // 默认性别值为0（未知）
+            newUser.setGender(0);
+        }
+        
         // 设置创建时间
         newUser.setCreateTime(new java.util.Date());
         
@@ -145,6 +153,7 @@ public class UserServiceImpl implements UserService {
             registeredUser.setUsername(newUser.getUsername());
             registeredUser.setAge(newUser.getAge());
             registeredUser.setAvatar(newUser.getAvatar());
+            registeredUser.setGender(newUser.getGender());
             registeredUser.setCreateTime(newUser.getCreateTime());
             
             logger.info("用户注册成功，用户名: {}", registerRequest.getUsername());

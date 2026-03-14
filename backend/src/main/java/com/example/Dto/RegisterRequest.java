@@ -12,6 +12,7 @@ public class RegisterRequest {
     private String confirmPassword; // 确认密码
     private Integer age; // 年龄
     private String avatar; // 头像
+    private Integer gender; // 性别
 
     // getter和setter方法
     public String getUsername() {
@@ -54,6 +55,14 @@ public class RegisterRequest {
         this.avatar = avatar;
     }
 
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "RegisterRequest{" +
@@ -62,6 +71,7 @@ public class RegisterRequest {
                 ", confirmPassword='" + confirmPassword + '\'' +
                 ", age=" + age +
                 ", avatar='" + avatar + '\'' +
+                ", gender=" + gender +
                 '}';
     }
 }

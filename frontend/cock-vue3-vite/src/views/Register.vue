@@ -68,6 +68,14 @@
           </div>
         </el-form-item>
         
+        <el-form-item prop="gender" :label="genderLabel" v-if="showGenderField">
+          <el-radio-group v-model="registerForm.gender">
+            <el-radio :label="USER_CONSTANTS.GENDER.MALE">{{ maleLabel }}</el-radio>
+            <el-radio :label="USER_CONSTANTS.GENDER.FEMALE">{{ femaleLabel }}</el-radio>
+            <el-radio :label="USER_CONSTANTS.GENDER.UNKNOWN">{{ unknownLabel }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        
         <el-form-item>
           <el-checkbox v-model="acceptTerms">{{ acceptTermsLabel }}</el-checkbox>
         </el-form-item>
@@ -119,7 +127,8 @@ const registerForm = reactive({
   password: '',
   confirmPassword: '',
   age: undefined as number | undefined,
-  avatar: ''
+  avatar: '',
+  gender: USER_CONSTANTS.GENDER.UNKNOWN as number | undefined,
 })
 const acceptTerms = ref(BOOLEAN_CONSTANTS.FALSE)
 const loading = ref(BOOLEAN_CONSTANTS.FALSE)
@@ -141,7 +150,11 @@ const passwordLabel = computed(() => LOGIN_CONSTANTS.TEXTS.PASSWORD_LABEL())
 const confirmPasswordLabel = computed(() => LOGIN_CONSTANTS.TEXTS.CONFIRM_PASSWORD_LABEL())
 const ageLabel = computed(() => LOGIN_CONSTANTS.TEXTS.AGE_LABEL())
 const avatarLabel = computed(() => LOGIN_CONSTANTS.TEXTS.AVATAR_LABEL())
-const usernamePlaceholder = computed(() => LOGIN_CONSTANTS.TEXTS.USERNAME_PLACEHOLDER())
+const genderLabel = computed(() => LOGIN_CONSTANTS.TEXTS.GENDER_LABEL())
+const maleLabel = computed(() => LOGIN_CONSTANTS.TEXTS.MALE_LABEL())
+const femaleLabel = computed(() => LOGIN_CONSTANTS.TEXTS.FEMALE_LABEL())
+const unknownLabel = computed(() => LOGIN_CONSTANTS.TEXTS.UNKNOWN_LABEL())
+  const usernamePlaceholder = computed(() => LOGIN_CONSTANTS.TEXTS.USERNAME_PLACEHOLDER())
 const passwordPlaceholder = computed(() => LOGIN_CONSTANTS.TEXTS.PASSWORD_PLACEHOLDER())
 const confirmPasswordPlaceholder = computed(() => LOGIN_CONSTANTS.TEXTS.CONFIRM_PASSWORD_PLACEHOLDER())
 const agePlaceholder = computed(() => LOGIN_CONSTANTS.TEXTS.AGE_PLACEHOLDER())
@@ -153,13 +166,16 @@ const backToLoginLabel = computed(() => LOGIN_CONSTANTS.TEXTS.BACK_TO_LOGIN())
 // 显示选项
 const showAgeField = computed(() => LOGIN_CONSTANTS.FEATURE_FLAGS.SHOW_AGE_FIELD())
 const showAvatarField = computed(() => LOGIN_CONSTANTS.FEATURE_FLAGS.SHOW_AVATAR_FIELD())
+const showGenderField = computed(() => LOGIN_CONSTANTS.FEATURE_FLAGS.SHOW_GENDER_FIELD())
 
 // 表单验证规则
 const validateUsername = (_rule: any, value: any, callback: any) => {
   if (!value) {
     callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.USERNAME_REQUIRED()))
   } else if (value.length < 3) {
-    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.USERNAME_LENGTH()))
+    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.USERNAME_TOO_SHORT()))
+  } else if (value.length > 50) {
+    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.USERNAME_TOO_LONG()))
   } else {
     callback()
   }
@@ -169,7 +185,7 @@ const validatePassword = (_rule: any, value: any, callback: any) => {
   if (!value) {
     callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.PASSWORD_REQUIRED()))
   } else if (value.length < 6) {
-    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.PASSWORD_LENGTH()))
+    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.PASSWORD_TOO_SHORT()))
   } else {
     callback()
   }
@@ -185,20 +201,32 @@ const validateConfirmPassword = (_rule: any, value: any, callback: any) => {
   }
 }
 
+const validateGender = (_rule: any, value: any, callback: any) => {
+  if (value === undefined || value === null) {
+    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.GENDER_REQUIRED()))
+  } else if (![USER_CONSTANTS.GENDER.UNKNOWN, USER_CONSTANTS.GENDER.MALE, USER_CONSTANTS.GENDER.FEMALE].includes(value)) {
+    callback(new Error(LOGIN_CONSTANTS.VALIDATION_MESSAGES.GENDER_INVALID()))
+  } else {
+    callback()
+  }
+}
+
 const registerRules = reactive({
   username: [
     { validator: validateUsername, trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.BLUR },
-    { min: 3, message: LOGIN_CONSTANTS.VALIDATION_MESSAGES.USERNAME_LENGTH(), trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.BLUR }
+    { min: 3, max: 50, message: LOGIN_CONSTANTS.VALIDATION_MESSAGES.USERNAME_LENGTH(), trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.CHANGE }
   ],
   password: [
-    { validator: validatePassword, trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.BLUR },
-    { min: 6, message: LOGIN_CONSTANTS.VALIDATION_MESSAGES.PASSWORD_LENGTH(), trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.BLUR }
+    { validator: validatePassword, trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.BLUR }
   ],
   confirmPassword: [
     { validator: validateConfirmPassword, trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.BLUR }
   ],
   age: [
     { type: USER_CONSTANTS.FORM_TYPES.NUMBER, min: USER_CONSTANTS.AGE_LIMITS.MIN, max: USER_CONSTANTS.AGE_LIMITS.MAX, message: LOGIN_CONSTANTS.VALIDATION_MESSAGES.AGE_RANGE(), trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.CHANGE }
+  ],
+  gender: [
+    { validator: validateGender, trigger: FORM_VALIDATION_CONSTANTS.TRIGGERS.CHANGE }
   ]
 })
 

@@ -22,6 +22,8 @@ public class User implements Serializable {
 
     private String avatar;
 
+    private Integer gender;
+
     private Date createTime;
 
 
@@ -63,6 +65,14 @@ public class User implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     public Date getCreateTime() {

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` VARCHAR(255) DEFAULT '$2a$10$yVPtGTWrs3mZDvzn/c.jYu8.f19vVSKnXD9cXXKTk4.Y.WX.w9w7C', -- 默认密码为 '123456' 的BCrypt哈希值
   `age` INT,
   `avatar` VARCHAR(255),
+  `gender` TINYINT DEFAULT 0 COMMENT '0-未知 1-男 2-女',
   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

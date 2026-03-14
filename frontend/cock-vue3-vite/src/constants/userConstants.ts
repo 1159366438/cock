@@ -39,11 +39,23 @@ export const USER_CONSTANTS = {
     OPTION_SIZE: 50,
   },
 
-  // 表单验证类型
-  FORM_TYPES: {
-    NUMBER: 'number',
-    STRING: 'string',
-    ARRAY: 'array',
-    OBJECT: 'object',
+   // 表单验证类型
+   FORM_TYPES: {
+     NUMBER: 'number',
+     STRING: 'string',
+     ARRAY: 'array',
+     OBJECT: 'object',
+   },
+
+  // 性别相关
+  GENDER: {
+    UNKNOWN: 0,
+    MALE: 1,
+    FEMALE: 2,
+    LABELS: {
+      0: '未知',
+      1: '男',
+      2: '女',
+    }
   },
 };
