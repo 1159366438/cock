@@ -5,7 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 用户信息表(User)数据访问层
+ * 用户数据访问对象
+ * @author Attendance System Team
+ * @since 2026-03-15
  */
 @Mapper
 public interface UserDao {

@@ -1,5 +1,11 @@
 package com.example.config;
 
+/**
+ * 全局异常处理器
+ * @author Attendance System Team
+ * @since 2026-03-15
+ */
+
 import com.example.common.ResponseResult;
 import com.example.constants.AppConstants;
 import org.slf4j.Logger;

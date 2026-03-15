@@ -1,5 +1,11 @@
 package com.example.config;
 
+/**
+ * 安全配置类
+ * @author Attendance System Team
+ * @since 2026-03-15
+ */
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

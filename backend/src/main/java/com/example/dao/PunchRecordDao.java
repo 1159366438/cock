@@ -5,7 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 打卡记录(PunchRecord)数据访问层
+ * 打卡记录数据访问对象
+ * @author Attendance System Team
+ * @since 2026-03-15
  */
 @Mapper
 public interface PunchRecordDao {

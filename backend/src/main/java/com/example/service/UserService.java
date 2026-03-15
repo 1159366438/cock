@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * 用户服务接口
+ * @author Attendance System Team
+ * @since 2026-03-15
  */
 
 public interface UserService {

@@ -1,5 +1,11 @@
 package com.example.service.impl;
 
+/**
+ * 打卡记录服务实现类
+ * @author Attendance System Team
+ * @since 2026-03-15
+ */
+
 import com.example.common.ResponseResult;
 import com.example.constants.AppConstants;
 import com.example.dao.PunchRecordDao;

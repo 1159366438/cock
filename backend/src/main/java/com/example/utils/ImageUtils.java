@@ -8,9 +8,8 @@ import java.util.UUID;
 
 /**
  * 图像处理工具类
- * 
  * @author Attendance System Team
- * @since 2026-03-14
+ * @since 2026-03-15
  */
 public class ImageUtils {
     

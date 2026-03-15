@@ -4,10 +4,9 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * (PunchRecord)实体类
- *
- * @author makejava
- * @since 2026-03-06 19:35:42
+ * 打卡记录实体类
+ * @author Attendance System Team
+ * @since 2026-03-15
  */
 public class PunchRecord implements Serializable {
     private static final long serialVersionUID = -42311789699024229L;

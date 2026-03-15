@@ -2,6 +2,8 @@ package com.example.dto;
 
 /**
  * 打卡请求参数类
+ * @author Attendance System Team
+ * @since 2026-03-15
  */
 public class PunchRequest {
     private String username; // 用户名

@@ -2,9 +2,8 @@ package com.example.constants;
 
 /**
  * 错误码常量类
- * 
- * @author 开发团队
- * @since 1.0.0
+ * @author Attendance System Team
+ * @since 2026-03-15
  */
 public class ErrorCodeConstants {
     

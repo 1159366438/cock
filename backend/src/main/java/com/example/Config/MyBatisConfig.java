@@ -1,5 +1,11 @@
 package com.example.config;
 
+/**
+ * MyBatis配置类
+ * @author Attendance System Team
+ * @since 2026-03-15
+ */
+
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;

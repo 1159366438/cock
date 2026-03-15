@@ -1,5 +1,11 @@
 package com.example.controller;
 
+/**
+ * 打卡控制器
+ * @author Attendance System Team
+ * @since 2026-03-15
+ */
+
 import com.example.common.ResponseResult;
 import com.example.constants.AppConstants;
 import com.example.dto.PunchRequest;

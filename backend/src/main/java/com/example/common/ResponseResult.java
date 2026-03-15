@@ -4,6 +4,8 @@ import com.example.constants.AppConstants;
 
 /**
  * 统一响应结果类
+ * @author Attendance System Team
+ * @since 2026-03-15
  * 
  * @param <T> 响应数据类型
  */
