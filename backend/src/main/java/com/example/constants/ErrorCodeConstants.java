@@ -97,5 +97,21 @@ public class ErrorCodeConstants {
         /** 通用验证错误 */
         public static final int VALIDATION_ERROR_CODE = 400;
         public static final String VALIDATION_ERROR_MSG = "参数验证错误";
+        
+        /** 用户名长度错误 */
+        public static final int USERNAME_LENGTH_ERROR_CODE = 400;
+        public static final String USERNAME_LENGTH_ERROR_MSG = "用户名长度必须在3-50个字符之间";
+        
+        /** 密码长度错误 */
+        public static final int PASSWORD_LENGTH_ERROR_CODE = 400;
+        public static final String PASSWORD_LENGTH_ERROR_MSG = "密码长度至少6位";
+        
+        /** 确认密码错误 */
+        public static final int CONFIRM_PASSWORD_ERROR_CODE = 400;
+        public static final String CONFIRM_PASSWORD_ERROR_MSG = "确认密码不能为空";
+        
+        /** 确认密码不匹配错误 */
+        public static final int CONFIRM_PASSWORD_MISMATCH_CODE = 400;
+        public static final String CONFIRM_PASSWORD_MISMATCH_MSG = "两次输入的密码不一致";
     }
 }

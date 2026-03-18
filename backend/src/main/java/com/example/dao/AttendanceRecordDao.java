@@ -9,7 +9,7 @@ import java.util.List;
  * @author Attendance System Team
  * @since 2026-03-15
  */
-@Mapper
+//@Mapper
 public interface AttendanceRecordDao {
 
     /**

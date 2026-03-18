@@ -6,10 +6,16 @@ package com.example.dto;
  * @since 2026-03-15
  */
 public class LoginRequest {
-    private String username; // 用户名
-    private String password; // 密码
+    /**
+     * 用户名
+     */
+    private String username;
 
-    // getter和setter方法
+    /**
+     * 密码
+     */
+    private String password;
+
     public String getUsername() {
         return username;
     }
@@ -24,13 +30,5 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "LoginRequest{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

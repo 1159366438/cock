@@ -174,6 +174,13 @@ export const APP_CONSTANTS = {
         },
         ATTENDANCE: {
           RECORDS: '/attendance/records',
+        },
+        DEPARTMENT: {
+          LIST: '/departments',
+          DETAIL: '/departments/',
+          CREATE: '/departments',
+          UPDATE: '/departments/',
+          DELETE: '/departments/'
         }
       }
     },
@@ -452,6 +459,107 @@ export const APP_CONSTANTS = {
       WARNING: 'warning',
       SUCCESS: 'success',
       INFO: 'info',
+    }
+  },
+
+  // Element Plus 组件类型常量
+  ELEMENT_TYPES: {
+    WARNING: 'warning',
+    SUCCESS: 'success',
+    ERROR: 'error',
+    INFO: 'info',
+  },
+
+  // 默认值常量
+  DEFAULT_VALUES: {
+    UNDEFINED: undefined,
+    NULL: null,
+    EMPTY_STRING: '',
+    EMPTY_ARRAY: [],
+    FALSE: false,
+    TRUE: true,
+  },
+
+  // 部门管理相关常量
+  DEPARTMENT_MANAGEMENT: {
+    // 页面标题
+    PAGE_TITLE: () => t('departmentManagement.pageTitle', '部门管理'),
+    
+    // 按钮文本
+    BUTTONS: {
+      ADD: () => t('departmentManagement.addButton', '新增部门'),
+      EDIT: () => t('departmentManagement.editButton', '编辑'),
+      DELETE: () => t('departmentManagement.deleteButton', '删除'),
+      CANCEL: () => t('departmentManagement.cancelButton', '取消'),
+      CONFIRM: () => t('departmentManagement.confirmButton', '确定'),
+    },
+    
+    // 对话框标题
+    DIALOG_TITLES: {
+      ADD: () => t('departmentManagement.addDialog', '新增部门'),
+      EDIT: () => t('departmentManagement.editDialog', '编辑部门'),
+    },
+    
+    // 确认消息
+    CONFIRM_MESSAGES: {
+      DELETE: () => t('departmentManagement.deleteConfirm', '确定要删除这个部门吗？'),
+      DELETE_TITLE: () => t('departmentManagement.deleteTitle', '提示'),
+    },
+    
+    // 成功消息
+    SUCCESS_MESSAGES: {
+      DELETE: () => t('departmentManagement.deleteSuccess', '删除成功'),
+      ADD: () => t('departmentManagement.addSuccess', '新增成功'),
+      UPDATE: () => t('departmentManagement.updateSuccess', '更新成功'),
+    },
+    
+    // 错误消息
+    ERROR_MESSAGES: {
+      DELETE: () => t('departmentManagement.deleteError', '删除失败'),
+      ADD: () => t('departmentManagement.addError', '新增失败'),
+      UPDATE: () => t('departmentManagement.updateError', '更新失败'),
+      LOAD: () => t('departmentManagement.loadError', '获取部门列表失败'),
+      EMPTY_NAME: () => t('departmentManagement.emptyNameError', '请输入部门名称'),
+      EMPTY_ID: () => t('departmentManagement.emptyIdError', '部门ID不能为空'),
+    },
+    
+    // 日志消息
+    LOG_MESSAGES: {
+      ADD_ERROR: () => t('departmentManagement.addLogError', '新增部门失败:'),
+      UPDATE_ERROR: () => t('departmentManagement.updateLogError', '更新部门失败:'),
+    },
+
+    
+    // 表格列标题
+    TABLE_HEADERS: {
+      ID: () => t('departmentManagement.table.id', 'ID'),
+      NAME: () => t('departmentManagement.table.name', '部门名称'),
+      DESCRIPTION: () => t('departmentManagement.table.description', '部门描述'),
+      MANAGER_ID: () => t('departmentManagement.table.managerId', '部门经理ID'),
+      CREATE_TIME: () => t('departmentManagement.table.createTime', '创建时间'),
+      ACTIONS: () => t('departmentManagement.table.actions', '操作'),
+    },
+    
+    // 表单标签
+    FORM_LABELS: {
+      NAME: () => t('departmentManagement.form.name', '部门名称'),
+      DESCRIPTION: () => t('departmentManagement.form.description', '部门描述'),
+      MANAGER_ID: () => t('departmentManagement.form.managerId', '部门经理ID'),
+    },
+    
+    // 表单占位符
+    FORM_PLACEHOLDERS: {
+      NAME: () => t('departmentManagement.form.namePlaceholder', '请输入部门名称'),
+      DESCRIPTION: () => t('departmentManagement.form.descriptionPlaceholder', '请输入部门描述'),
+      MANAGER_ID: () => t('departmentManagement.form.managerIdPlaceholder', '请输入部门经理用户ID'),
+    },
+    
+    // 组件常量
+    COMPONENTS: {
+      DIALOG_WIDTH: '500px',
+      DIALOG_LABEL_WIDTH: '100px',
+      ID_COLUMN_WIDTH: '80px',
+      ACTIONS_COLUMN_WIDTH: '200px',
     }
   },
 }

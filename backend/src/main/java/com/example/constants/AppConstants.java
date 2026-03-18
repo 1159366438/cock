@@ -124,6 +124,18 @@ public class AppConstants {
         
         public static final int VALIDATION_ERROR_CODE = ErrorCodeConstants.Validation.VALIDATION_ERROR_CODE;
         public static final String VALIDATION_ERROR_MSG = ErrorCodeConstants.Validation.VALIDATION_ERROR_MSG;
+        
+        public static final int USERNAME_LENGTH_ERROR_CODE = ErrorCodeConstants.Validation.USERNAME_LENGTH_ERROR_CODE;
+        public static final String USERNAME_LENGTH_ERROR_MSG = ErrorCodeConstants.Validation.USERNAME_LENGTH_ERROR_MSG;
+        
+        public static final int PASSWORD_LENGTH_ERROR_CODE = ErrorCodeConstants.Validation.PASSWORD_LENGTH_ERROR_CODE;
+        public static final String PASSWORD_LENGTH_ERROR_MSG = ErrorCodeConstants.Validation.PASSWORD_LENGTH_ERROR_MSG;
+        
+        public static final int CONFIRM_PASSWORD_ERROR_CODE = ErrorCodeConstants.Validation.CONFIRM_PASSWORD_ERROR_CODE;
+        public static final String CONFIRM_PASSWORD_ERROR_MSG = ErrorCodeConstants.Validation.CONFIRM_PASSWORD_ERROR_MSG;
+        
+        public static final int CONFIRM_PASSWORD_MISMATCH_CODE = ErrorCodeConstants.Validation.CONFIRM_PASSWORD_MISMATCH_CODE;
+        public static final String CONFIRM_PASSWORD_MISMATCH_MSG = ErrorCodeConstants.Validation.CONFIRM_PASSWORD_MISMATCH_MSG;
     }
     
     /**
@@ -133,5 +145,31 @@ public class AppConstants {
         public static final String ATTENDANCE_SUCCESS_MSG = "考勤打卡成功";
         public static final String LOGOUT_SUCCESS_MSG = "登出成功";
         public static final String OPERATION_SUCCESS_MSG = "操作成功";
+    }
+    
+    /**
+     * 部门管理相关常量
+     */
+    public static class Department {
+        // 成功消息
+        public static final String DEPARTMENT_CREATE_SUCCESS_MSG = "创建部门成功";
+        public static final String DEPARTMENT_UPDATE_SUCCESS_MSG = "更新部门成功";
+        public static final String DEPARTMENT_DELETE_SUCCESS_MSG = "部门删除成功";
+        public static final String DEPARTMENT_GET_LIST_SUCCESS_MSG = "获取部门列表成功";
+        public static final String DEPARTMENT_GET_DETAIL_SUCCESS_MSG = "获取部门详情成功";
+        
+        // 错误消息
+        public static final String DEPARTMENT_NAME_EMPTY_MSG = "部门名称不能为空";
+        public static final String DEPARTMENT_NOT_FOUND_MSG = "部门不存在";
+        public static final String DEPARTMENT_CREATE_FAILED_MSG = "创建部门失败";
+        public static final String DEPARTMENT_UPDATE_FAILED_MSG = "更新部门失败";
+        public static final String DEPARTMENT_DELETE_FAILED_MSG = "删除部门失败";
+        public static final String DEPARTMENT_GET_LIST_FAILED_MSG = "获取部门列表失败";
+        public static final String DEPARTMENT_GET_DETAIL_FAILED_MSG = "获取部门详情失败";
+        
+        // 错误码
+        public static final int DEPARTMENT_NAME_EMPTY_CODE = 400;
+        public static final int DEPARTMENT_NOT_FOUND_CODE = 404;
+        public static final int DEPARTMENT_OPERATION_FAILED_CODE = 500;
     }
 }

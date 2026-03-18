@@ -110,7 +110,7 @@ public class UserController {
   */
  private ResponseResult<Void> validateRegisterRequest(RegisterRequest registerRequest) {
      if (registerRequest == null) {
-         return ResponseResult.error(AppConstants.Error.USERNAME_EMPTY_CODE, "注册请求参数不能为空");
+         return ResponseResult.error(AppConstants.Error.USERNAME_EMPTY_CODE, AppConstants.Error.USERNAME_EMPTY_MSG);
      }
      
      String username = registerRequest.getUsername();
@@ -123,7 +123,7 @@ public class UserController {
      }
      
      if (username.length() < 3 || username.length() > 50) {
-         return ResponseResult.error(AppConstants.Error.VALIDATION_ERROR_CODE, "用户名长度必须在3-50个字符之间");
+         return ResponseResult.error(AppConstants.Error.USERNAME_LENGTH_ERROR_CODE, AppConstants.Error.USERNAME_LENGTH_ERROR_MSG);
      }
      
      // 验证密码
@@ -132,12 +132,12 @@ public class UserController {
      }
      
      if (password.length() < 6) {
-         return ResponseResult.error(AppConstants.Error.VALIDATION_ERROR_CODE, "密码长度至少6位");
+         return ResponseResult.error(AppConstants.Error.PASSWORD_LENGTH_ERROR_CODE, AppConstants.Error.PASSWORD_LENGTH_ERROR_MSG);
      }
      
      // 验证确认密码
      if (confirmPassword == null || confirmPassword.trim().isEmpty()) {
-         return ResponseResult.error(AppConstants.Error.VALIDATION_ERROR_CODE, "确认密码不能为空");
+         return ResponseResult.error(AppConstants.Error.CONFIRM_PASSWORD_ERROR_CODE, AppConstants.Error.CONFIRM_PASSWORD_ERROR_MSG);
      }
      
      if (!password.equals(confirmPassword)) {

@@ -1,7 +1,7 @@
 package com.example.entity;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户实体类
@@ -11,20 +11,68 @@ import java.io.Serializable;
 public class User implements Serializable {
     private static final long serialVersionUID = 874813741216031059L;
 
+    /**
+     * 主键ID
+     */
     private Integer id;
 
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 密码
+     */
     private String password;
 
+    /**
+     * 年龄
+     */
     private Integer age;
 
+    /**
+     * 头像
+     */
     private String avatar;
 
+    /**
+     * 性别
+     */
     private Integer gender;
 
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
+     * 删除标识
+     */
+    private Integer isDeleted;
+
+    public static final String COL_ID = "id";
+
+    public static final String COL_USERNAME = "username";
+
+    public static final String COL_PASSWORD = "password";
+
+    public static final String COL_AGE = "age";
+
+    public static final String COL_AVATAR = "avatar";
+
+    public static final String COL_GENDER = "gender";
+
+    public static final String COL_CREATE_TIME = "create_time";
+
+    public static final String COL_UPDATE_TIME = "update_time";
+
+    public static final String COL_IS_DELETED = "is_deleted";
 
     public Integer getId() {
         return id;
@@ -82,4 +130,19 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

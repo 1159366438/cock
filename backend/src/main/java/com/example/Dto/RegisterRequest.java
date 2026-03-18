@@ -7,14 +7,36 @@ package com.example.dto;
  * @since 2026-03-14
  */
 public class RegisterRequest {
-    private String username; // 用户名
-    private String password; // 密码
-    private String confirmPassword; // 确认密码
-    private Integer age; // 年龄
-    private String avatar; // 头像
-    private Integer gender; // 性别
+    /**
+     * 用户名
+     */
+    private String username;
 
-    // getter和setter方法
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 确认密码
+     */
+    private String confirmPassword;
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
     public String getUsername() {
         return username;
     }
@@ -61,17 +83,5 @@ public class RegisterRequest {
 
     public void setGender(Integer gender) {
         this.gender = gender;
-    }
-
-    @Override
-    public String toString() {
-        return "RegisterRequest{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                ", age=" + age +
-                ", avatar='" + avatar + '\'' +
-                ", gender=" + gender +
-                '}';
     }
 }

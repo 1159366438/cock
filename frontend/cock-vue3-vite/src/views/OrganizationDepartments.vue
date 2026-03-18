@@ -1,67 +1,102 @@
 <template>
   <div class="department-management">
     <div class="header">
-      <h2>部门管理</h2>
+      <h2>{{ APP_CONSTANTS.DEPARTMENT_MANAGEMENT.PAGE_TITLE() }}</h2>
     </div>
     
     <div class="toolbar">
-      <el-button type="primary" @click="addDepartment">新增部门</el-button>
+      <el-button 
+        type="primary" 
+        @click="addDepartment"
+      >
+        {{ APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.ADD() }}
+      </el-button>
     </div>
     
     <div class="content">
       <el-table :data="departments" style="width: 100%" v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80"></el-table-column>
-        <el-table-column prop="name" label="部门名称"></el-table-column>
-        <el-table-column prop="description" label="部门描述"></el-table-column>
-        <el-table-column prop="manager" label="部门经理"></el-table-column>
-        <el-table-column prop="employeeCount" label="员工数量"></el-table-column>
-        <el-table-column prop="status" label="状态">
+        <el-table-column 
+          prop="id" 
+          :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.TABLE_HEADERS.ID()" 
+          :width="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.COMPONENTS.ID_COLUMN_WIDTH"
+        ></el-table-column>
+        <el-table-column 
+          prop="name" 
+          :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.TABLE_HEADERS.NAME()"
+        ></el-table-column>
+        <el-table-column 
+          prop="description" 
+          :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.TABLE_HEADERS.DESCRIPTION()"
+        ></el-table-column>
+        <el-table-column 
+          prop="managerId" 
+          :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.TABLE_HEADERS.MANAGER_ID()"
+        ></el-table-column>
+        <el-table-column 
+          prop="createTime" 
+          :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.TABLE_HEADERS.CREATE_TIME()"
+        ></el-table-column>
+        <el-table-column 
+          :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.TABLE_HEADERS.ACTIONS()" 
+          :width="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.COMPONENTS.ACTIONS_COLUMN_WIDTH"
+        >
           <template #default="{ row }">
-            <el-tag :type="row.status === 'active' ? 'success' : 'danger'">
-              {{ row.status === 'active' ? '启用' : '禁用' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="200">
-          <template #default="{ row }">
-            <el-button size="small" @click="editDepartment(row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="deleteDepartment(row.id)">删除</el-button>
+            <el-button 
+              size="small" 
+              @click="editDepartment(row)"
+            >
+              {{ APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.EDIT() }}
+            </el-button>
+            <el-button 
+              size="small" 
+              type="danger" 
+              @click="deleteDepartment(row.id)"
+            >
+              {{ APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.DELETE() }}
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     
     <!-- 部门编辑对话框 -->
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
-      <el-form :model="currentDepartment" label-width="100px">
-        <el-form-item label="部门名称">
-          <el-input v-model="currentDepartment.name"></el-input>
+    <el-dialog 
+      v-model="dialogVisible" 
+      :title="dialogTitle" 
+      :width="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.COMPONENTS.DIALOG_WIDTH"
+    >
+      <el-form :model="currentDepartment" :label-width="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.COMPONENTS.DIALOG_LABEL_WIDTH">
+        <el-form-item :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.FORM_LABELS.NAME()">
+          <el-input 
+            v-model="currentDepartment.name" 
+            :placeholder="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.FORM_PLACEHOLDERS.NAME()"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="部门描述">
-          <el-input v-model="currentDepartment.description" type="textarea"></el-input>
+        <el-form-item :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.FORM_LABELS.DESCRIPTION()">
+          <el-input 
+            v-model="currentDepartment.description" 
+            type="textarea" 
+            :placeholder="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.FORM_PLACEHOLDERS.DESCRIPTION()"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="部门经理">
-          <el-select v-model="currentDepartment.manager" placeholder="请选择部门经理" style="width: 100%">
-            <el-option label="张三" value="zhangsan"></el-option>
-            <el-option label="李四" value="lisi"></el-option>
-            <el-option label="王五" value="wangwu"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-switch
-            v-model="currentDepartment.status"
-            :active-value="'active'"
-            :inactive-value="'inactive'"
-            inline-prompt
-            active-text="启用"
-            inactive-text="禁用"
-          />
+        <el-form-item :label="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.FORM_LABELS.MANAGER_ID()">
+          <el-input 
+            v-model="currentDepartment.managerId" 
+            :placeholder="APP_CONSTANTS.DEPARTMENT_MANAGEMENT.FORM_PLACEHOLDERS.MANAGER_ID()"
+          ></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="saveDepartment">确定</el-button>
+          <el-button @click="dialogVisible = false">
+            {{ APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.CANCEL() }}
+          </el-button>
+          <el-button 
+            type="primary" 
+            @click="saveDepartment"
+          >
+            {{ APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.CONFIRM() }}
+          </el-button>
         </span>
       </template>
     </el-dialog>
@@ -78,15 +113,18 @@
 
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import departmentApi from '../api/departmentApi'
+import { APP_CONSTANTS } from '../constants/appConstants'
 
 // 部门类型定义
 interface Department {
   id: number
   name: string
   description: string
-  manager: string
-  employeeCount: number
-  status: string
+  managerId: number
+  createTime?: string
+  updateTime?: string
+  isDeleted?: number
 }
 
 // 响应式数据
@@ -95,42 +133,48 @@ const loading = ref(false)
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 const currentDepartment = ref<Partial<Department>>({
-  name: '',
-  description: '',
-  manager: '',
-  status: 'active'
+  name: APP_CONSTANTS.DEFAULT_VALUES.EMPTY_STRING,
+  description: APP_CONSTANTS.DEFAULT_VALUES.EMPTY_STRING,
+  managerId: APP_CONSTANTS.DEFAULT_VALUES.UNDEFINED
 })
 
-// 模拟数据加载
+// 加载部门列表
 const loadDepartments = async () => {
   loading.value = true
-  // 模拟API调用
-  setTimeout(() => {
-    departments.value = [
-      { id: 1, name: '技术部', description: '负责技术研发工作', manager: 'zhangsan', employeeCount: 15, status: 'active' },
-      { id: 2, name: '人事部', description: '负责人力资源管理工作', manager: 'lisi', employeeCount: 5, status: 'active' },
-      { id: 3, name: '财务部', description: '负责财务管理及核算', manager: 'wangwu', employeeCount: 8, status: 'active' },
-      { id: 4, name: '市场部', description: '负责市场推广和销售', manager: 'zhangsan', employeeCount: 12, status: 'inactive' }
-    ]
+  try {
+    // 使用真实API获取部门列表
+    const response = await departmentApi.getDepartments({
+      page: 1,
+      size: 100  // 获取所有部门
+    })
+    
+    if (response.data?.code === 200) {
+      departments.value = response.data.data?.records || []
+    } else {
+      ElMessage.error(response.data?.msg || APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.LOAD())
+    }
+  } catch (error) {
+    console.error('获取部门列表失败:', error)
+    ElMessage.error(APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.LOAD())
+  } finally {
     loading.value = false
-  }, 500)
+  }
 }
 
 // 新增部门
 const addDepartment = () => {
-  dialogTitle.value = '新增部门'
+  dialogTitle.value = APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.ADD()
   currentDepartment.value = {
-    name: '',
-    description: '',
-    manager: '',
-    status: 'active'
+    name: APP_CONSTANTS.DEFAULT_VALUES.EMPTY_STRING,
+    description: APP_CONSTANTS.DEFAULT_VALUES.EMPTY_STRING,
+    managerId: APP_CONSTANTS.DEFAULT_VALUES.UNDEFINED
   }
   dialogVisible.value = true
 }
 
 // 编辑部门
 const editDepartment = (dept: Department) => {
-  dialogTitle.value = '编辑部门'
+  dialogTitle.value = APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.EDIT()
   currentDepartment.value = { ...dept }
   dialogVisible.value = true
 }
@@ -138,49 +182,93 @@ const editDepartment = (dept: Department) => {
 // 删除部门
 const deleteDepartment = async (id: number) => {
   try {
-    await ElMessageBox.confirm('确定要删除这个部门吗？', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    })
+    await ElMessageBox.confirm(
+      APP_CONSTANTS.DEPARTMENT_MANAGEMENT.CONFIRM_MESSAGES.DELETE(),
+      APP_CONSTANTS.DEPARTMENT_MANAGEMENT.CONFIRM_MESSAGES.DELETE_TITLE(),
+      {
+        confirmButtonText: APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.CONFIRM(),
+        cancelButtonText: APP_CONSTANTS.DEPARTMENT_MANAGEMENT.BUTTONS.CANCEL(),
+        type: APP_CONSTANTS.ELEMENT_TYPES.WARNING as 'success' | 'warning' | 'info' | 'error' | undefined
+      }
+    )
     
-    // 模拟API调用
-    departments.value = departments.value.filter(dept => dept.id !== id)
-    ElMessage.success('删除成功')
-  } catch {
-    // 用户取消删除
+    // 调用真实API删除部门
+    const response = await departmentApi.deleteDepartment(id)
+    
+    if (response.data?.code === 200) {
+      ElMessage.success(APP_CONSTANTS.DEPARTMENT_MANAGEMENT.SUCCESS_MESSAGES.DELETE())
+      loadDepartments() // 重新加载部门列表
+    } else {
+      ElMessage.error(response.data?.msg || APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.DELETE())
+    }
+  } catch (error) {
+    console.error('删除部门失败:', error)
+    if (error !== 'cancel') { // 用户取消操作时不显示错误
+      ElMessage.error(APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.DELETE())
+    }
   }
 }
 
 // 保存部门
-const saveDepartment = () => {
+const saveDepartment = async () => {
   if (!currentDepartment.value.name) {
-    ElMessage.error('请输入部门名称')
+    ElMessage.error(APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.EMPTY_NAME())
     return
   }
   
-  if (dialogTitle.value === '新增部门') {
-    // 添加新部门
-    const newDept: Department = {
-      id: Math.max(...departments.value.map(d => d.id), 0) + 1,
-      name: currentDepartment.value.name || '',
-      description: currentDepartment.value.description || '',
-      manager: currentDepartment.value.manager || '',
-      employeeCount: 0,
-      status: currentDepartment.value.status || 'active'
+  try {
+    let response
+    
+    if (dialogTitle.value === APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.ADD()) {
+      // 调用真实API创建部门
+      response = await departmentApi.createDepartment({
+        name: currentDepartment.value.name,
+        description: currentDepartment.value.description,
+        managerId: currentDepartment.value.managerId
+      })
+    } else {
+      // 调用真实API更新部门
+      if (!currentDepartment.value.id) {
+        ElMessage.error(APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.EMPTY_ID())
+        return
+      }
+      
+      response = await departmentApi.updateDepartment(currentDepartment.value.id, {
+        name: currentDepartment.value.name,
+        description: currentDepartment.value.description,
+        managerId: currentDepartment.value.managerId
+      })
     }
-    departments.value.push(newDept)
-    ElMessage.success('新增成功')
-  } else {
-    // 更新现有部门
-    const index = departments.value.findIndex(dept => dept.id === currentDepartment.value.id)
-    if (index !== -1) {
-      departments.value[index] = { ...currentDepartment.value } as Department
-      ElMessage.success('更新成功')
+    
+    if (response.data?.code === 200) {
+      ElMessage.success(
+        dialogTitle.value === APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.ADD() 
+          ? APP_CONSTANTS.DEPARTMENT_MANAGEMENT.SUCCESS_MESSAGES.ADD() 
+          : APP_CONSTANTS.DEPARTMENT_MANAGEMENT.SUCCESS_MESSAGES.UPDATE()
+      )
+      dialogVisible.value = false
+      loadDepartments() // 重新加载部门列表
+    } else {
+      ElMessage.error(
+        response.data?.msg || 
+        (dialogTitle.value === APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.ADD() 
+          ? APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.ADD() 
+          : APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.UPDATE())
+      )
     }
+  } catch (error) {
+    console.error(
+      dialogTitle.value === APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.ADD() 
+        ? APP_CONSTANTS.DEPARTMENT_MANAGEMENT.LOG_MESSAGES.ADD_ERROR() 
+        : APP_CONSTANTS.DEPARTMENT_MANAGEMENT.LOG_MESSAGES.UPDATE_ERROR(), 
+      error
+    )
+    ElMessage.error(
+      dialogTitle.value === APP_CONSTANTS.DEPARTMENT_MANAGEMENT.DIALOG_TITLES.ADD() 
+        ? APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.ADD() 
+        : APP_CONSTANTS.DEPARTMENT_MANAGEMENT.ERROR_MESSAGES.UPDATE()
+    )
   }
-  
-  dialogVisible.value = false
 }
 
 // 组件挂载时加载数据
@@ -190,22 +278,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.department-management {
-  padding: 20px;
-}
-
-.header {
-  margin-bottom: 20px;
-}
-
-.toolbar {
-  margin-bottom: 20px;
-}
-
-.content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
+@import '../assets/css/organization-departments.module.css';
 </style>
+

@@ -29,12 +29,12 @@ public class ResponseResult<T> {
 
     // 成功响应
     public static <T> ResponseResult<T> success(T data) {
-        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, "success", data);
+        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, AppConstants.Error.SUCCESS_MSG, data);
     }
 
     // 成功响应（无数据）
     public static <T> ResponseResult<T> success() {
-        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, "success", null);
+        return new ResponseResult<>(AppConstants.Error.SUCCESS_CODE, AppConstants.Error.SUCCESS_MSG, null);
     }
 
     // 成功响应（带自定义消息）

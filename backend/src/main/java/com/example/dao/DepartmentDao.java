@@ -1,0 +1,51 @@
+package com.example.dao;
+
+import com.example.entity.Department;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+
+/**
+ * 部门数据访问接口
+ * @author Attendance System Team
+ * @since 2026-03-18
+ */
+@Mapper
+public interface DepartmentDao {
+
+
+    /**
+     * 查询所有部门
+     */
+    List<Department> selectAll();
+    
+    /**
+     * 根据ID查询部门
+     */
+    Department selectById(@Param("id") Integer id);
+
+    /**
+     * 根据条件查询部门
+     */
+    List<Department> selectByCondition(@Param("name") String name);
+
+    /**
+     * 新增部门
+     */
+    int insert(Department department);
+
+    /**
+     * 更新部门
+     */
+    int updateById(Department department);
+
+    /**
+     * 根据ID删除部门（逻辑删除）
+     */
+    int updateToDelete(@Param("id") Integer id);
+
+    /**
+     * 统计部门数量
+     */
+    int countByCondition(@Param("name") String name);
+}

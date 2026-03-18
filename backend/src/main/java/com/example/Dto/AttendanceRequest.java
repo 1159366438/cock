@@ -6,11 +6,21 @@ package com.example.dto;
  * @since 2026-03-15
  */
 public class AttendanceRequest {
-    private String username; // 用户名
-    private Integer userId; // 用户ID
-    private String attendanceTime; // 考勤时间（ISO格式）
+    /**
+     * 用户名
+     */
+    private String username;
 
-    // getter和setter方法
+    /**
+     * 用户ID
+     */
+    private Integer userId;
+
+    /**
+     * 考勤时间（ISO格式）
+     */
+    private String attendanceTime;
+
     public String getUsername() {
         return username;
     }
@@ -33,14 +43,5 @@ public class AttendanceRequest {
 
     public void setAttendanceTime(String attendanceTime) {
         this.attendanceTime = attendanceTime;
-    }
-
-    @Override
-    public String toString() {
-        return "AttendanceRequest{" +
-                "username='" + username + '\'' +
-                ", userId=" + userId +
-                ", attendanceTime='" + attendanceTime + '\'' +
-                '}';
     }
 }
