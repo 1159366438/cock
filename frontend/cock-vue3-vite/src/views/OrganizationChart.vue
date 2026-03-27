@@ -150,7 +150,6 @@
 import { ref, onMounted, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useDepartmentStore } from '../store/modules/department'
-import { t } from '../locales'
 import { APP_CONSTANTS } from '../constants'
 import departmentApi from '../api/departmentApi'
 import { userApi } from '../api/userApi'

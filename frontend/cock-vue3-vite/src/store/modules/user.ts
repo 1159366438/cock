@@ -41,10 +41,24 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
     async fetchUserInfo() {
       this.loading = APP_CONSTANTS.BOOLEAN.TRUE    // 设置加载状态为true
       this.error = ''                             // 清空之前的错误信息
+      
+      // 检查JWT token是否存在
+      const token = localStorage.getItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN)
+      if (!token) {
+        console.warn('JWT token不存在，无法获取用户信息')
+        this.loading = APP_CONSTANTS.BOOLEAN.FALSE
+        return
+      }
+      
       try {
         const res = await userApi.getUserInfo(this.userInfo.userId || 1)
         // 开发调试时可以启用日志
         console.log('获取用户信息接口响应:', res)
+        
+        // 检查响应是否存在
+        if (!res) {
+          throw new Error(MESSAGE_CONSTANTS.USER_INFO.FETCH_FAILED())
+        }
         
         // 检查响应状态
         if (res.data && res.data.code !== STATUS_CODES.BUSINESS.SUCCESS) {
@@ -76,13 +90,15 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
         if (res.data && res.data.data) {
           // 后端返回的数据包装在data.data中
           const userData = res.data.data;
-          this.userInfo.username = userData.username
-          this.userInfo.userId = userData.id
-          this.userInfo.avatar = userData.avatar || '' // 如果有头像字段
-          this.userInfo.age = userData.age
-          this.userInfo.gender = userData.gender
-          this.userInfo.email = userData.email || ''
-          this.userInfo.phone = userData.phone || ''
+          
+          // 更新用户信息
+          this.userInfo.username = userData.username || this.userInfo.username
+          this.userInfo.userId = userData.id || this.userInfo.userId
+          this.userInfo.avatar = userData.avatar || this.userInfo.avatar
+          this.userInfo.age = userData.age || this.userInfo.age
+          this.userInfo.gender = userData.gender || this.userInfo.gender
+          this.userInfo.email = userData.email || this.userInfo.email
+          this.userInfo.phone = userData.phone || this.userInfo.phone
         }
       } catch (error: any) {
         // 错误已在axios拦截器中统一处理
@@ -98,6 +114,11 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
       try {
         // 调用真实的登录API
         const res = await authApi.login(username, password)
+        
+        // 检查响应是否存在
+        if (!res) {
+          throw new Error(MESSAGE_CONSTANTS.USER_INFO.LOGIN_FAILED())
+        }
         
         // 检查响应状态
         if (res.data && res.data.code !== STATUS_CODES.BUSINESS.SUCCESS) {
@@ -126,17 +147,23 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
         
         // 如果登录成功，更新用户信息
         if (res.data && res.data.data) {
-          const userData = res.data.data.user || res.data.data
-            this.userInfo.username = userData.username
-            this.userInfo.userId = userData.id
-            this.userInfo.avatar = userData.avatar || ''
-            this.userInfo.age = userData.age
-            this.userInfo.gender = userData.gender
-            this.userInfo.email = userData.email || ''
-            this.userInfo.phone = userData.phone || ''
+          const responseData = res.data.data;
+          // 从响应中提取JWT Token并保存到localStorage
+          if (responseData.token) {
+            localStorage.setItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN, responseData.token);
+          }
+          
+          const userData = responseData.user || responseData;
+          this.userInfo.username = userData.username;
+          this.userInfo.userId = userData.id;
+          this.userInfo.avatar = userData.avatar || '';
+          this.userInfo.age = userData.age;
+          this.userInfo.gender = userData.gender;
+          this.userInfo.email = userData.email || '';
+          this.userInfo.phone = userData.phone || '';
         } else {
-          this.userInfo.username = username
-          this.userInfo.userId = undefined
+          this.userInfo.username = username;
+          this.userInfo.userId = undefined;
         }
         
         return {
@@ -168,6 +195,11 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
       try {
         // 调用真实的注册API
         const res = await userApi.register(username, password, confirmPassword, age, avatar, gender)
+        
+        // 检查响应是否存在
+        if (!res) {
+          throw new Error(MESSAGE_CONSTANTS.USER_INFO.REGISTER_FAILED())
+        }
         
         // 检查响应状态
         if (res.data && res.data.code !== STATUS_CODES.BUSINESS.SUCCESS) {
@@ -227,6 +259,11 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
         // 调用真实的登出API
         const res = await authApi.logout()
         
+        // 检查响应是否存在
+        if (!res) {
+          throw new Error(MESSAGE_CONSTANTS.USER_INFO.LOGOUT_FAILED())
+        }
+        
         // 检查响应状态
         if (res.data && res.data.code !== STATUS_CODES.BUSINESS.SUCCESS) {
           // 根据后端返回码进行精确错误处理
@@ -255,9 +292,7 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
         
         // 清除认证状态
         localStorage.removeItem(APP_CONSTANTS.USER.STORAGE_KEYS.IS_LOGGED_IN)
-        /* // 暂时注释掉token相关功能
         localStorage.removeItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN)
-        */
         localStorage.removeItem(APP_CONSTANTS.USER.STORAGE_KEYS.REMEMBERED_USERNAME)
         
         return {
@@ -284,6 +319,11 @@ export const useUserStore = defineStore(STORE_NAMES.USER, {
       try {
         // 调用更新用户信息API
         const res = await userApi.updateUserInfo(this.userInfo.userId as number, userData)
+        
+        // 检查响应是否存在
+        if (!res) {
+          throw new Error(MESSAGE_CONSTANTS.USER_INFO.UPDATE_FAILED())
+        }
         
         // 检查响应状态
         if (res.data && res.data.code !== STATUS_CODES.BUSINESS.SUCCESS) {

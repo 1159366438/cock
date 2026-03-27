@@ -154,10 +154,6 @@ const handleLogin = async () => {
       
       // 设置认证状态
       localStorage.setItem(APP_CONSTANTS.USER.STORAGE_KEYS.IS_LOGGED_IN, APP_CONSTANTS.STORAGE.AUTH_STATUS.LOGGED_IN)
-      /* // 暂时注释掉token相关功能
-      // 这里可以设置token或其他认证信息
-      localStorage.setItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN, 'temp_token_for_demo') // 仅为演示用 - 实际项目中应使用真实token
-      */
       
       // 根据是否记住密码决定跳转行为
       if (rememberMe.value) {

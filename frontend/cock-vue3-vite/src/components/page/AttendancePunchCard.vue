@@ -66,7 +66,7 @@ const handleAttendanceIn = async () => {
   const userId = userStore.userInfo.userId
   try {
     // 调用store中的考勤方法（已封装API调用）
-    const success = await punchStore.attendanceIn(username, userId)
+    const success = await punchStore.attendanceIn(username, userId || 0)
     
     if (success) {
       ElMessage.success(APP_CONSTANTS.ATTENDANCE.MESSAGES.SUCCESS())

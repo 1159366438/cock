@@ -184,4 +184,25 @@ public class AppConstants {
         public static final int DEPARTMENT_GET_EMPLOYEES_FAILED_CODE = ErrorCodeConstants.Department.DEPARTMENT_GET_EMPLOYEES_FAILED_CODE;
         public static final int DEPARTMENT_GET_CHILDREN_FAILED_CODE = ErrorCodeConstants.Department.DEPARTMENT_GET_CHILDREN_FAILED_CODE;
     }
+    
+    /**
+     * JWT认证相关常量
+     */
+    public static class JwtAuth {
+        // 错误码
+        public static final int TOKEN_INVALID_CODE = ErrorCodeConstants.JwtAuth.TOKEN_INVALID_CODE;
+        public static final String TOKEN_INVALID_MSG = ErrorCodeConstants.JwtAuth.TOKEN_INVALID_MSG;
+        
+        public static final int TOKEN_EXPIRED_CODE = ErrorCodeConstants.JwtAuth.TOKEN_EXPIRED_CODE;
+        public static final String TOKEN_EXPIRED_MSG = ErrorCodeConstants.JwtAuth.TOKEN_EXPIRED_MSG;
+        
+        public static final int TOKEN_MISSING_CODE = ErrorCodeConstants.JwtAuth.TOKEN_MISSING_CODE;
+        public static final String TOKEN_MISSING_MSG = ErrorCodeConstants.JwtAuth.TOKEN_MISSING_MSG;
+        
+        public static final int TOKEN_VERIFICATION_FAILED_CODE = ErrorCodeConstants.JwtAuth.TOKEN_VERIFICATION_FAILED_CODE;
+        public static final String TOKEN_VERIFICATION_FAILED_MSG = ErrorCodeConstants.JwtAuth.TOKEN_VERIFICATION_FAILED_MSG;
+        
+        public static final int AUTHENTICATION_FAILED_CODE = ErrorCodeConstants.JwtAuth.AUTHENTICATION_FAILED_CODE;
+        public static final String AUTHENTICATION_FAILED_MSG = ErrorCodeConstants.JwtAuth.AUTHENTICATION_FAILED_MSG;
+    }
 }

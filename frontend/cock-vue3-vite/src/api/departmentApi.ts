@@ -5,7 +5,7 @@
  * @since 2026-03-18
  * @version v1.1.0-alpha.1
  */
-import { service } from './axios'
+import service from './axios'
 import { APP_CONSTANTS } from '../constants'
 
 // 部门相关API接口

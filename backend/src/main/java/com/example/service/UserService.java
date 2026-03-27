@@ -131,4 +131,16 @@ public interface UserService {
      * @version v1.1.0-alpha.1
      */
     List<User> getUnassignedUsers();
+    
+    /**
+     * 验证用户凭据
+     *
+     * @param username 用户名
+     * @param rawPassword 原始密码
+     * @return 验证通过的用户信息，验证失败返回null
+     * @author Attendance System Team
+     * @since 2026-03-28
+     * @version v1.1.0-alpha.1
+     */
+    User authenticate(String username, String rawPassword);
 }

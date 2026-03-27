@@ -123,6 +123,31 @@ public class ErrorCodeConstants {
     }
     
     /**
+     * JWT认证相关错误码
+     */
+    public static class JwtAuth {
+        /** Token无效 */
+        public static final int TOKEN_INVALID_CODE = 401;
+        public static final String TOKEN_INVALID_MSG = "无效的访问令牌";
+        
+        /** Token过期 */
+        public static final int TOKEN_EXPIRED_CODE = 401;
+        public static final String TOKEN_EXPIRED_MSG = "访问令牌已过期";
+        
+        /** Token缺失 */
+        public static final int TOKEN_MISSING_CODE = 401;
+        public static final String TOKEN_MISSING_MSG = "缺少访问令牌";
+        
+        /** Token验证失败 */
+        public static final int TOKEN_VERIFICATION_FAILED_CODE = 401;
+        public static final String TOKEN_VERIFICATION_FAILED_MSG = "令牌验证失败";
+        
+        /** 认证失败 */
+        public static final int AUTHENTICATION_FAILED_CODE = 401;
+        public static final String AUTHENTICATION_FAILED_MSG = "认证失败";
+    }
+    
+    /**
      * 部门管理相关错误码
      */
     public static class Department {

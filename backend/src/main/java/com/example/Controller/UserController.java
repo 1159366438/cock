@@ -15,6 +15,7 @@ import com.example.dto.RegisterRequest;
 import com.example.dto.UserDTO;
 import com.example.entity.User;
 import com.example.service.UserService;
+import com.example.util.JwtRedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,6 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,14 +34,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import java.util.List;
 
 
 @RestController // 标识为REST接口，返回JSON数据
-@RequestMapping("/api") // 匹配前端url的前缀 /api/input
+@RequestMapping("/api") // API基础路径
 @CrossOrigin // 解决前后端分离的跨域问题（必加，否则前端请求会被拦截）
 @Validated // 开启参数校验
 @Tag(name = "用户管理", description = "用户相关的API接口，包括获取用户信息、注册等功能")
@@ -50,6 +55,9 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private JwtRedisUtil jwtRedisUtil;
+    
     /**
      * 获取用户信息接口
      * <p>
@@ -59,19 +67,35 @@ public class UserController {
      * @return UserDTO对象，表示查询到的用户信息（不包含敏感信息）
      * @since v1.1.0-alpha.1
      */
-    @Operation(summary = "获取用户信息", description = "根据用户ID获取用户的基本信息")
+    @Operation(summary = "获取用户信息", description = "获取当前认证用户的基本信息")
      @ApiResponses({
              @ApiResponse(responseCode = "200", description = "获取用户信息成功"),
              @ApiResponse(responseCode = "404", description = "用户不存在"),
              @ApiResponse(responseCode = "500", description = "获取用户信息失败")
      })
      @GetMapping("/users/me")
-     public ResponseResult<UserDTO> getUserInfo(@Parameter(description = "用户ID，可选参数") @RequestParam(required = false) Integer userId) {
-        logger.info("获取用户信息请求成功，用户ID: {}", userId);
-        
-        // 委托给服务层处理业务逻辑
-        return userService.getUserInfoWithHandling(userId);
-    }
+     public ResponseResult<UserDTO> getUserInfo() {
+         // 从SecurityContext中获取当前认证的用户信息
+         var authentication = SecurityContextHolder.getContext().getAuthentication();
+         
+         if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getName())) {
+             // 从JWT工具类获取用户ID（通过token解析）
+             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+             String authHeader = request.getHeader("Authorization");
+             
+             Integer userId = null;
+             if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                 String token = authHeader.substring(7);
+                 userId = jwtRedisUtil.getUserIdFromToken(token);
+             }
+             
+             // 委托给服务层处理业务逻辑
+             return userService.getUserInfoWithHandling(userId);
+         } else {
+             // 如果SecurityContext中没有认证信息，返回401未授权
+             return ResponseResult.error(401, "未授权访问");
+         }
+     }
     
     /**
      * 用户注册接口

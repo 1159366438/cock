@@ -136,7 +136,6 @@ const registerFormRef = ref()
   const passwordPlaceholder = computed(() => APP_CONSTANTS.LOGIN.TEXTS.PASSWORD_PLACEHOLDER())
   const confirmPasswordPlaceholder = computed(() => APP_CONSTANTS.LOGIN.TEXTS.CONFIRM_PASSWORD_PLACEHOLDER())
   const agePlaceholder = computed(() => APP_CONSTANTS.LOGIN.TEXTS.AGE_PLACEHOLDER())
-  const avatarPlaceholder = computed(() => APP_CONSTANTS.LOGIN.TEXTS.AVATAR_PLACEHOLDER())
 
   const acceptTermsLabel = computed(() => APP_CONSTANTS.LOGIN.TEXTS.ACCEPT_TERMS())
   const registerButtonLabel = computed(() => APP_CONSTANTS.LOGIN.TEXTS.REGISTER_BUTTON())

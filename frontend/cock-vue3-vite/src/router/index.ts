@@ -67,12 +67,12 @@ const router = createRouter({
 router.beforeEach((to, _, next) => {
   // 如果目标路由需要认证（除了登录页之外的其他页面）
   if (to.matched.some(record => record.meta?.requiresAuth !== false) && to.path !== APP_CONSTANTS.ROUTE.PATHS.AUTH.LOGIN) {
-    // 这里应该检查用户的认证状态
-    // 仅使用localStorage检查是否存在登录状态
-    const isAuthenticated = localStorage.getItem(APP_CONSTANTS.USER.STORAGE_KEYS.IS_LOGGED_IN) === APP_CONSTANTS.STORAGE.AUTH_STATUS.LOGGED_IN
-    /* // 暂时注释掉token相关功能
-    || !!localStorage.getItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN)
-    */
+    // 检查用户的认证状态，优先检查JWT token
+    const token = localStorage.getItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN)
+    const isLoggedIn = localStorage.getItem(APP_CONSTANTS.USER.STORAGE_KEYS.IS_LOGGED_IN) === APP_CONSTANTS.STORAGE.AUTH_STATUS.LOGGED_IN
+    
+    // 如果有token或者已登录标志，则认为用户已认证
+    const isAuthenticated = !!(token && isLoggedIn)
     
     if (!isAuthenticated) {
       // 如果未认证，重定向到登录页

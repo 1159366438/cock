@@ -294,4 +294,41 @@ public class UserServiceImpl implements UserService {
     public List<User> getUnassignedUsers() {
         return userDao.getUnassignedUsers();
     }
+    
+    /**
+     * 验证用户凭据
+     * 
+     * @param username 用户名
+     * @param rawPassword 原始密码
+     * @return 验证通过的用户信息，验证失败返回null
+     * @author Attendance System Team
+     * @since 2026-03-28
+     * @version v1.1.0-alpha.1
+     */
+    @Override
+    public User authenticate(String username, String rawPassword) {
+        logger.info("验证用户凭据: username={}", username);
+        
+        try {
+            // 根据用户名查找用户
+            User user = userDao.queryByUsername(username);
+            
+            if (user == null) {
+                logger.warn("验证用户凭据失败: 用户名不存在, username={}", username);
+                return null;
+            }
+            
+            // 验证密码
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
+                logger.info("验证用户凭据成功: userId={}", user.getId());
+                return user;
+            } else {
+                logger.warn("验证用户凭据失败: 密码错误, userId={}", user.getId());
+                return null;
+            }
+        } catch (Exception e) {
+            logger.error("验证用户凭据时发生异常", e);
+            return null;
+        }
+    }
 }

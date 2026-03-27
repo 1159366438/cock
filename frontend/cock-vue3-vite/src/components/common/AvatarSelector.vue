@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+
 import { APP_CONSTANTS } from '../../constants/appConstants'
 
 // 定义组件props

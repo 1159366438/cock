@@ -86,7 +86,7 @@ import { useUserStore } from '../../store'
 import { formatDate } from '../../utils'
 import { APP_CONFIG } from '../../config/appConfig'
 import { APP_CONSTANTS, MESSAGE_CONSTANTS, EVENT_CONSTANTS } from '../../constants'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 import AvatarSelector from './AvatarSelector.vue'
 
@@ -231,13 +231,6 @@ const openEditDialog = async () => {
 }
 
 /**
- * 选择头像
- */
-const selectAvatar = (avatarUrl: string) => {
-  editForm.value.avatar = avatarUrl
-}
-
-/**
  * 取消编辑
  */
 const cancelEdit = () => {
@@ -247,6 +240,10 @@ const cancelEdit = () => {
     editFormRef.value.resetFields()
   }
 }
+
+/**
+ * 保存编辑
+ */
 
 /**
  * 保存用户信息
@@ -284,7 +281,12 @@ const saveUserInfo = async () => {
 onMounted(() => {
   // 初始化时间和用户信息
   updateTime()      // 初始化时间显示
-  getUserInfo()     // 获取用户信息
+  
+  // 检查是否有JWT token，如果有才获取用户信息
+  const token = localStorage.getItem(APP_CONSTANTS.USER.STORAGE_KEYS.AUTH_TOKEN)
+  if (token && userStore.isLoggedIn) {
+    getUserInfo()     // 获取用户信息
+  }
   
   // 设置定时器，定期更新时间显示
   const timer = setInterval(updateTime, APP_CONFIG.UI.TIMING.AUTO_UPDATE_INTERVAL)
