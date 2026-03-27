@@ -3,6 +3,7 @@
  * 管理应用的多语言资源
  * @author Attendance System Team
  * @since 2026-03-15
+ * @version v1.1.0-alpha.1
  */
 
 export const zhCN = {

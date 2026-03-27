@@ -3,6 +3,7 @@
  * 提供部门增删改查等操作接口
  * @author Attendance System Team
  * @since 2026-03-18
+ * @version v1.1.0-alpha.1
  */
 import { service } from './axios'
 import { APP_CONSTANTS } from '../constants'

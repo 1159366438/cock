@@ -3,6 +3,7 @@
  * 整合应用中使用的主要常量值，减少文件数量，提高可维护性
  * @author Attendance System Team
  * @since 2026-03-15
+ * @version v1.1.0-alpha.1
  */
 
 import { t } from '../locales'

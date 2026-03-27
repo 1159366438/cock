@@ -2,8 +2,11 @@ package com.example.service.impl;
 
 /**
  * 用户服务实现类
+ * 实现用户管理相关的业务逻辑
+ * 
  * @author Attendance System Team
- * @since 2026-03-15
+ * @since 2026-03-27
+ * @version v1.1.0-alpha.1
  */
 
 import com.example.common.ResponseResult;
@@ -66,22 +69,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String username, String rawPassword) {
-        // 根据用户名查询用户
+    public UserDTO login(String username, String rawPassword) {
+        logger.info("用户登录验证，用户名: {}", username);
+        
+        // 通过用户名查询用户
         User user = userDao.queryByUsername(username);
-
-        if (user != null && passwordEncoder.matches(rawPassword, user.getPassword())) {
-            // 密码匹配，返回用户信息（注意：不要返回密码）
-            User loginUser = new User();
-            loginUser.setId(user.getId());
-            loginUser.setUsername(user.getUsername());
-            loginUser.setAge(user.getAge());
-            loginUser.setAvatar(user.getAvatar());
-            loginUser.setCreateTime(user.getCreateTime());
-            return loginUser;
+        
+        if (user == null) {
+            logger.warn("用户名不存在: {}", username);
+            return null;
         }
-
-        return null; // 登录失败
+        
+        // 验证密码
+        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
+            logger.warn("密码验证失败，用户名: {}", username);
+            return null;
+        }
+        
+        logger.info("用户登录验证成功，用户ID: {}", user.getId());
+        // 返回UserDTO（不包含敏感信息）
+        return new UserDTO(user);
     }
 
     @Override
@@ -113,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseResult<User> register(RegisterRequest registerRequest) {
+    public ResponseResult<UserDTO> register(RegisterRequest registerRequest) {
         logger.info("注册用户请求，用户名: {}, 年龄: {}, 性别: {}",
                 registerRequest.getUsername(), registerRequest.getAge(), registerRequest.getGender());
         // 检查用户名是否已存在
@@ -152,14 +159,8 @@ public class UserServiceImpl implements UserService {
         int result = userDao.insert(newUser);
         
         if (result > 0) {
-            // 返回不包含密码的用户信息
-            User registeredUser = new User();
-            registeredUser.setId(newUser.getId());
-            registeredUser.setUsername(newUser.getUsername());
-            registeredUser.setAge(newUser.getAge());
-            registeredUser.setAvatar(newUser.getAvatar());
-            registeredUser.setGender(newUser.getGender());
-            registeredUser.setCreateTime(newUser.getCreateTime());
+            // 使用UserDTO返回新创建的用户信息（不包含密码等敏感信息）
+            UserDTO registeredUser = new UserDTO(newUser);
             
             logger.info("用户注册成功，用户名: {}", registerRequest.getUsername());
             return ResponseResult.success(registeredUser);
@@ -213,6 +214,10 @@ public class UserServiceImpl implements UserService {
             existingUser.setAge(updateData.getAge() != null ? updateData.getAge() : existingUser.getAge());
             existingUser.setGender(updateData.getGender() != null ? updateData.getGender() : existingUser.getGender());
             existingUser.setAvatar(updateData.getAvatar() != null ? updateData.getAvatar() : existingUser.getAvatar());
+            existingUser.setEmail(updateData.getEmail() != null ? updateData.getEmail() : existingUser.getEmail());
+            existingUser.setPhone(updateData.getPhone() != null ? updateData.getPhone() : existingUser.getPhone());
+            existingUser.setPosition(updateData.getPosition() != null ? updateData.getPosition() : existingUser.getPosition());
+            existingUser.setDepartmentId(updateData.getDepartmentId() != null ? updateData.getDepartmentId() : existingUser.getDepartmentId());
             
             // 执行更新操作
             int result = userDao.update(existingUser);

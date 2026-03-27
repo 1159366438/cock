@@ -2,8 +2,11 @@ package com.example.controller;
 
 /**
  * 用户控制器
+ * 提供用户信息管理、查询等相关功能
+ * 
  * @author Attendance System Team
- * @since 2026-03-15
+ * @since 2026-03-27
+ * @version v1.1.0-alpha.1
  */
 
 import com.example.common.ResponseResult;
@@ -50,7 +53,7 @@ public class UserController {
      * </p>
      *
      * @return UserDTO对象，表示查询到的用户信息（不包含敏感信息）
-     * @since 1.0.0
+     * @since v1.1.0-alpha.1
      */
     @Operation(summary = "获取用户信息", description = "根据用户ID获取用户的基本信息")
      @ApiResponses({
@@ -73,8 +76,8 @@ public class UserController {
      * </p>
      *
      * @param registerRequest 注册请求参数，包含用户名、密码等信息
-     * @return 标准响应格式，包含注册成功的用户信息
-     * @since 1.1.0
+     * @return 标准响应格式，包含注册成功的用户信息（不包含敏感信息）
+     * @since v1.1.0-alpha.1
      */
      @Operation(summary = "用户注册", description = "新用户注册账户")
      @ApiResponses({
@@ -83,7 +86,7 @@ public class UserController {
              @ApiResponse(responseCode = "500", description = "注册失败")
      })
      @PostMapping("/users")
-    public ResponseResult<User> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseResult<UserDTO> register(@RequestBody RegisterRequest registerRequest) {
      logger.info("用户注册请求: username={}", registerRequest.getUsername());
      
      try {
@@ -94,7 +97,7 @@ public class UserController {
          }
          
          // 调用注册业务逻辑
-         ResponseResult<User> registerResult = userService.register(registerRequest);
+         ResponseResult<UserDTO> registerResult = userService.register(registerRequest);
          
          // 直接返回服务层的结果
          return registerResult;
@@ -158,7 +161,7 @@ public class UserController {
   * @param userId 用户ID
   * @param updateData 更新的数据
   * @return 标准响应格式，包含更新后的用户信息（不包含敏感信息）
-  * @since 1.2.0
+  * @since v1.1.0-alpha.1
   */
  @Operation(summary = "更新用户信息", description = "更新当前登录用户的信息")
  @ApiResponses({
